@@ -1,0 +1,4 @@
+"control_group","test_group","control_size","test_size","effect_size","paired","variable","difference","ci","bca_ci_low","bca_ci_high","pct_ci_low","pct_ci_high","nboots","month","trait","generation","duration"
+"June_Control","June_Heatwave",37,35,"hedges_g",FALSE,"Size",0.129246540405975,95,-0.339705539701985,0.579897655095345,-0.340855964529528,0.574373504350304,5000,"June","size","F0","long"
+"August_Control","August_Heatwave",31,34,"hedges_g",FALSE,"Size",-0.0932596570038455,95,-0.56822001219817,0.393177893104751,-0.549161942050958,0.427684856382725,5000,"August","size","F0","long"
+"November_Control","November_Heatwave",80,80,"hedges_g",FALSE,"Size",0.0663642891793334,95,-0.260864039051475,0.35521773640832,-0.249224424024178,0.368800887317199,5000,"November","size","F0","long"
