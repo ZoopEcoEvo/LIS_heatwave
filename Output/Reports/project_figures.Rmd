@@ -16,7 +16,7 @@ editor_options:
 
 ```{r setup, include=FALSE, fig.align="center", message = F, warning = F}
 knitr::opts_chunk$set(
-  echo = T,
+  echo = knitr::is_html_output(),
   fig.align = "left",
   fig.path = "../Figures/markdown/",
   message = FALSE,
