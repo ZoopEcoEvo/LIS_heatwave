@@ -1,4 +1,5 @@
 library(rmarkdown)
+library(tidyverse)
 library(knitr)
 library(readxl)
 library(rTPC)
@@ -11,7 +12,6 @@ library(boot)
 library(car)
 library(ggplot2)
 library(ggpubr)
-library(tidyverse)
 library(ggrepel)
 
 process_data = F
