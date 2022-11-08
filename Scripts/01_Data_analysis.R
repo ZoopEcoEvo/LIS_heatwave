@@ -346,7 +346,7 @@ long_sum$duration = "long"
 short_sum$duration = "short"
 
 F0_rf_summary = bind_rows(long_sum, short_sum) %>% 
-  select(-bootstraps) %>% 
+  dplyr::select(-bootstraps) %>% 
   mutate("month" = str_split_fixed(control_group, pattern = "_", n = 2)[,1],
          "trait" = "production",
          "generation" = "F0")
@@ -359,7 +359,7 @@ long_total_sum$duration = "long"
 short_total_sum$duration = "short"
 
 F0_total_summary = bind_rows(long_total_sum, short_total_sum) %>% 
-  select(-bootstraps) %>% 
+  dplyr::select(-bootstraps) %>% 
   mutate("month" = str_split_fixed(control_group, pattern = "_", n = 2)[,1],
          "trait" = "total",
          "generation" = "F0")
@@ -373,7 +373,7 @@ long_hs_sum$duration = "long"
 short_hs_sum$duration = "short"
 
 F0_hs_summary = bind_rows(long_hs_sum, short_hs_sum) %>% 
-  select(-bootstraps) %>% 
+  dplyr::select(-bootstraps) %>% 
   mutate("month" = str_split_fixed(control_group, pattern = "_", n = 2)[,1],
          "trait" = "success",
          "generation" = "F0")
@@ -382,7 +382,7 @@ write.csv(F0_hs_summary, file = "Output/Data/F0_hs_summary.csv", row.names = F)
 
 size_sum = female_size_comp$result
 F0_size_summary = size_sum %>% 
-  select(-bootstraps) %>% 
+  dplyr::select(-bootstraps) %>% 
   mutate("month" = str_split_fixed(control_group, pattern = "_", n = 2)[,1],
          "trait" = "size",
          "generation" = "F0", 
@@ -439,7 +439,7 @@ august_sum$month = "August"
 november_sum$month = "November"
 
 F0_dur_summary = bind_rows(june_sum, august_sum, november_sum) %>% 
-  select(-bootstraps) %>% 
+  dplyr::select(-bootstraps) %>% 
   mutate("treatment" = str_split_fixed(control_group, pattern = "_", n = 2)[,2])
 
 write.csv(F0_dur_summary, file = 'Output/Data/F0_dur_summary.csv', row.names = F)

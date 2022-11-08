@@ -420,7 +420,7 @@ F0_dur_summary %>%
 ```{r F1-duration-effects, fig.width=8, fig.height=8}
 # How does heat wave duration affect transgenerational effects? Reaction norms shown below for effect size comparisons (heatwave - control) for different duration of parental exposure
 F1_data %>% 
-  select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
+  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
   mutate("ID" = paste(month, off_temp, variable, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
@@ -441,7 +441,7 @@ F1_data %>%
 
 ```{r sig-F1-duration-effects, fig.width=8, fig.height=8}
 duration_effects = F1_data %>% 
-  select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
+  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
   mutate("ID" = paste(month, off_temp, variable, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
@@ -462,11 +462,11 @@ duration_effects = F1_data %>%
   filter(change == "Different")
 
 select_rnorms = duration_effects %>% 
-  select(-duration, -difference, -bca_ci_low, -bca_ci_high, -ID, -zero_diff) %>% 
+  dplyr::select(-duration, -difference, -bca_ci_low, -bca_ci_high, -ID, -zero_diff) %>% 
   distinct()
 
 sig_changes = F1_data %>% 
-  select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
+  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
   mutate("ID" = paste(month, off_temp, variable, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
