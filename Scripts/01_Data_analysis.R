@@ -264,14 +264,18 @@ write.csv(comb_surv, file = "Output/Data/comb_surv.csv", row.names = F)
 write.csv(comb_boot_conf_preds, file = "Output/Data/comb_boot_conf_preds.csv", row.names = F)
 
 #### F0 - Simulated Heatwave ####
-F0_epr$Duration = F0_epr$Day
-F0_epr$Duration[F0_epr$Day == "1_to_3"] = "Short"
-F0_epr$Duration[F0_epr$Day == "5_to_7"] = "Long"
-F0_epr$Duration = factor(F0_epr$Duration, levels = c("Short","Long"))
-F0_epr$treat_ID = paste(F0_epr$Month, F0_epr$Treatment, sep = "_")
+F0_epr = F0_epr %>% 
+  mutate("Duration" = case_when(
+    Day == "1_to_3" ~ "Short", 
+    Day == "5_to_7" ~ "Long"),
+    Duration = fct_relevel(Duration, "Short", "Long"),
+    "treat_ID" = paste(Month, Treatment, sep = "_")) 
 
-short = F0_epr[F0_epr$Day == "1_to_3",]
-long = F0_epr[F0_epr$Day == "5_to_7",]
+short = F0_epr %>%  
+  filter(Day == "1_to_3")
+
+long = F0_epr %>%  
+  filter(Day == "5_to_7")
 
 
 total_short = dabest(short, treat_ID, Total, 
