@@ -136,8 +136,11 @@ combined_opt_coll = comb_params %>%
   geom_smooth(data = filter(comb_params, metric == "RF" & term == "topt" & curve_id != "November_2"),
               method = "lm", colour = "grey50") + 
   geom_point(size = 3) + 
+  ylab("Optimum (degrees C)") + 
+  xlab("Collection Temperature (degrees c)") + 
+  labs(colour = "Month") + 
   scale_colour_manual(values = comb_colors) + 
-  theme_pubr() + ylab("Optimum (deg C)") + xlab("Collection Temperature (deg c)")
+  theme_matt(base_size = 12)
 
 combined_opt_diff = comb_params %>% 
   filter(metric == "RF" & term == "topt") %>% 
@@ -146,23 +149,28 @@ combined_opt_diff = comb_params %>%
   geom_smooth(data = filter(comb_params, metric == "RF" & term == "topt" & curve_id != "November_2"),
               method = "lm", colour = "grey50") + 
   geom_point(size = 3) + 
+  ylab("Margin (degrees C)") + 
+  xlab("Collection Temperature (degrees c)") + 
   scale_colour_manual(values = comb_colors) + 
-  theme_pubr() + ylab("Margin (deg C)") + xlab("Collection Temperature (deg c)")
+  theme_matt(base_size = 12) 
 
 combined_ld_coll = ggplot(combined_tolerance, aes(x = Coll_temp, y = LD50, colour = Month, group = species)) + 
   geom_smooth(method = "lm", colour = "grey50") + 
   geom_point(size = 3) + 
   scale_colour_manual(values = comb_colors) + 
-  theme_pubr() + 
-  ylab("Thermal Tolerance (deg C)") + xlab("Collection Temperature (deg c)")
+  ylab("Thermal Tolerance (degrees C)") + 
+  xlab("Collection Temperature (degrees c)") + 
+  theme_matt(base_size = 12)
 
 combined_ld_diff = ggplot(combined_tolerance, aes(x = Coll_temp, y = margin, colour = Month, group = species)) +
   geom_smooth(method = "lm", colour = "grey50") + 
   geom_point(size = 3) + 
   scale_colour_manual(values = comb_colors) + 
-  theme_pubr() + ylab("Warming Tolerance (deg C)") + xlab("Collection Temperature (deg c)")
+  ylab("Warming Tolerance (degrees C)") + 
+  xlab("Collection Temperature (degrees c)") + 
+  theme_matt(base_size = 12)
 
-ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_diff, ncol = 2, nrow = 2, common.legend = T)
+ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_diff, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
 ```
 
 ```{r}
@@ -253,7 +261,7 @@ ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.45,1), common.lege
 ```
 
 ## Supplemental Information   
-```{r parameters-month, fig.height=7, fig.width=9}
+```{r parameters-month, fig.height=9, fig.width=11}
 #field tpc parameters
 comb_params %>%  
   mutate(curve_id = fct_relevel(curve_id, c("January", "February", "March", "April", "May", "June", 
@@ -263,9 +271,12 @@ comb_params %>%
   geom_point(size = 4) +
   geom_linerange(aes(ymin = conf_lower, ymax = conf_upper)) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
-  theme_bw() +
+  labs(x = "Month",
+       y = "Parameter Estimate",
+       colour = "Species") + 
+  theme_bw(base_size = 16) +
   theme(panel.grid = element_blank(),
-        axis.text.x = element_text(angle = 270, hjust = 0, vjust = 0.5))
+        axis.text.x = element_text(angle = 315, hjust = 0, vjust = 0.5))
 ```
 
 ```{r parameters-coll-temp, fig.height=7, fig.width=9}
@@ -277,7 +288,10 @@ ggplot(comb_params, aes(x = growth_temp, y = estimate, colour = species)) +
   geom_point(size = 4) +
   geom_linerange(aes(ymin = conf_lower, ymax = conf_upper)) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
-  theme_bw() +
+  labs(x = "Collection Temperature (degrees C)",
+       y = "Parameter Estimate",
+       colour = "Species") + 
+  theme_bw(base_size = 12) +
   theme(panel.grid = element_blank())
 ```
 
@@ -286,8 +300,9 @@ comb_params %>%
   filter(term == "topt") %>% 
   ggplot(aes(x = growth_temp, y = margin, colour = species, group = species)) + 
   facet_wrap(.~metric, scales = 'free_y') + 
+  geom_hline(yintercept = 0) +
   geom_smooth(data = filter(comb_params, term == "topt" & curve_id != "November_2"),
-              method = "lm", se = F) + 
+              method = "lm", se = F, size = 2) + 
   geom_point(size = 4) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
   labs(x = "Collection Temperature",
@@ -311,7 +326,7 @@ F1_bs_effect_size$trait = "size"
 F1_bs_effect_size$generation = "F1"
 
 F0_data = bind_rows(F0_hs_summary, F0_total_summary,F0_rf_summary, F0_size_summary) %>% 
-  dplyr::select(trait, variable, difference, bca_ci_low, bca_ci_high, month, duration, trait, generation) %>% 
+  dplyr::select(trait, difference, bca_ci_low, bca_ci_high, month, duration, trait, generation) %>% 
   mutate("order_code" = paste(trait, duration, sep = "_"),
          "order_number" = case_when(
            order_code == "total_short" ~ 1,
@@ -322,14 +337,14 @@ F0_data = bind_rows(F0_hs_summary, F0_total_summary,F0_rf_summary, F0_size_summa
            order_code == "production_long" ~ 6,
            order_code == "size_long" ~ 7),
          month = fct_relevel(month, "June", "August", "November"),
-         variable = fct_relevel(variable, "Total", "Success", "Hatched", "Size"),
+         trait = fct_relevel(trait, "total", "success", "production", "size"),
          duration = fct_relevel(duration, "short", "long"))
 
 F0_data$order_number = factor(F0_data$order_number, levels = c(1,2,3,4,5,6,7))
 
 
 F1_data = bind_rows(F1_total_effect_size, F1_hs_effect_size, F1_rf_effect_size, F1_bs_effect_size) %>% 
-  dplyr::select(variable, difference, bca_ci_low, bca_ci_high, month, duration, trait, generation, off_temp) %>% 
+  dplyr::select(trait, difference, bca_ci_low, bca_ci_high, month, duration, generation, off_temp) %>% 
   mutate("order_code" = paste(trait, duration, sep = "_"),
          "order_number" = case_when(
            order_code == "epr_short" ~ 1,
@@ -340,8 +355,9 @@ F1_data = bind_rows(F1_total_effect_size, F1_hs_effect_size, F1_rf_effect_size, 
            order_code == "production_long" ~ 6,
            order_code == "size_short" ~ 7,
            order_code == "size_long" ~ 8),
+         trait = if_else(trait == "epr", "total", trait),
          month = fct_relevel(month, "June", "August", "November"),
-         variable = fct_relevel(variable, "Total", "Success", "Hatched", "Size"),
+         trait = fct_relevel(trait, "total", "success", "production", "size"),
          duration = fct_relevel(duration, "short", "long"))
 
 
@@ -350,7 +366,7 @@ F1_data$order_number = factor(F1_data$order_number, levels = c(1,2,3,4,5,6,7,8))
 #Top row - F0 (direct effects)
 x.axis_labels = c("1" = "short", "2" = "long", "3" = "short", "4" = "long", "5" = "short", "6" = "long", "7" = "short", "8" = "long")
 
-F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = variable, shape = duration)) + 
+F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, shape = duration)) + 
   facet_grid(. ~ month) + 
   geom_hline(yintercept = 0, colour = "black", size = 0.3) +
   geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1, 
@@ -358,10 +374,10 @@ F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = variable, s
   geom_point(size = 4, fill = "white", position = position_dodge(width = 0.7)) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
   scale_x_discrete(labels= x.axis_labels) +
-  scale_colour_manual(values = c("Size" = "darkgrey",
-                                 "Success" = "gold",
-                                 "Hatched" = "forestgreen",
-                                 "Total" = "cornflowerblue")) + 
+  scale_colour_manual(values = c("size" = "darkgrey",
+                                 "success" = "gold",
+                                 "production" = "forestgreen",
+                                 "total" = "cornflowerblue")) +  
   xlab("") +
   ylab("Effect Size\nHeatwave - Control") + 
   theme_bw(base_size = 12) + 
@@ -371,7 +387,7 @@ F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = variable, s
         legend.position = "none")
 
 #Following three rows - F1 (transgeneration / indirect effects)
-F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = variable, shape = duration, group = trait)) + 
+F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, shape = duration, group = trait)) + 
   facet_grid(off_temp ~ month, ) + 
   geom_hline(yintercept = 0, colour = "black", size = 0.3) +
   geom_line(position = position_dodge(width = 0.5)) + 
@@ -381,10 +397,10 @@ F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = variable, s
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
   xlim(0.5,4.5) + 
   scale_x_discrete(labels= x.axis_labels) +
-  scale_colour_manual(values = c("Size" = "darkgrey",
-                                 "Success" = "gold",
-                                 "Hatched" = "forestgreen",
-                                 "Total" = "cornflowerblue")) + 
+  scale_colour_manual(values = c("size" = "darkgrey",
+                                 "success" = "gold",
+                                 "production" = "forestgreen",
+                                 "total" = "cornflowerblue")) + 
   xlab("") +
   ylab("Effect Size") + 
   theme_bw(base_size = 12) + 
@@ -406,12 +422,12 @@ F0_fecundity_plot
 F0_dur_summary %>% 
   mutate(month = fct_relevel(month, c("June", "August", "November"))) %>% 
   ggplot(aes(x = month, fill = treatment, y = difference)) + 
-  geom_bar(stat = "identity", position = position_dodge(width = 0.9)) + 
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), colour = "black", size = 1) + 
   geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high),
                 width = 0.1, size = 1,
                 position = position_dodge(width = 0.9)) + 
   geom_hline(yintercept = 0) + 
-  scale_fill_manual(values = c("forestgreen", "goldenrod")) + 
+  scale_fill_manual(values = c("black", "white")) + 
   labs(x = "",
        y = "Effect Size (Hedge's g) \n Long - Short events") + 
   theme_pubr(base_size = 18)
@@ -420,12 +436,12 @@ F0_dur_summary %>%
 ```{r F1-duration-effects, fig.width=8, fig.height=8}
 # How does heat wave duration affect transgenerational effects? Reaction norms shown below for effect size comparisons (heatwave - control) for different duration of parental exposure
 F1_data %>% 
-  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
-  mutate("ID" = paste(month, off_temp, variable, sep = "_"),
+  dplyr::select(month, duration, off_temp, trait, difference, bca_ci_low, bca_ci_high) %>% 
+  mutate("ID" = paste(month, off_temp, trait, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
   ggplot(aes(x = duration, y = difference, colour = month, group = ID)) + 
-  facet_wrap(variable~.) + 
+  facet_wrap(trait~.) + 
   geom_hline(yintercept = 0) + 
   geom_line(size = 1, position = position_dodge(width = 0.1)) + 
   geom_point(size = 2, position = position_dodge(width = 0.1)) + 
@@ -441,11 +457,11 @@ F1_data %>%
 
 ```{r sig-F1-duration-effects, fig.width=8, fig.height=8}
 duration_effects = F1_data %>% 
-  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
-  mutate("ID" = paste(month, off_temp, variable, sep = "_"),
+  dplyr::select(month, duration, off_temp, trait, difference, bca_ci_low, bca_ci_high) %>% 
+  mutate("ID" = paste(month, off_temp, trait, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
-  group_by(ID, variable, duration) %>%  
+  group_by(ID, trait, duration) %>%  
   mutate("zero_diff" = case_when(
     sign(bca_ci_low) == sign(bca_ci_high) ~ "does not overlap zero",
     sign(bca_ci_low) != sign(bca_ci_high) ~ "overlaps zero"
@@ -458,7 +474,7 @@ duration_effects = F1_data %>%
     sign(difference)[1] != sign(difference)[2] & zero_diff[1] != zero_diff[2] ~ "Different",
     sign(difference)[1] == sign(difference)[2] & zero_diff[1] != zero_diff[2] ~ "Different"
   )) %>% 
-  arrange(month, off_temp, variable) %>% 
+  arrange(month, off_temp, trait) %>% 
   filter(change == "Different")
 
 select_rnorms = duration_effects %>% 
@@ -466,14 +482,14 @@ select_rnorms = duration_effects %>%
   distinct()
 
 sig_changes = F1_data %>% 
-  dplyr::select(month, duration, off_temp, variable, difference, bca_ci_low, bca_ci_high) %>% 
-  mutate("ID" = paste(month, off_temp, variable, sep = "_"),
+  dplyr::select(month, duration, off_temp, trait, difference, bca_ci_low, bca_ci_high) %>% 
+  mutate("ID" = paste(month, off_temp, trait, sep = "_"),
          month = fct_relevel(month, c("June", "August", "November")),
          duration = fct_relevel(duration, c("short", "long"))) %>% 
   filter(ID %in% select_rnorms$ID)
 
 ggplot(sig_changes, aes(x = duration, y = difference, colour = month, group = ID)) + 
-  facet_wrap(variable~.) + 
+  facet_wrap(trait~.) + 
   geom_hline(yintercept = 0) + 
   geom_line(size = 1, position = position_dodge(width = 0.1)) + 
   geom_point(size = 2, position = position_dodge(width = 0.1)) + 
