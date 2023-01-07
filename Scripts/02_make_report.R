@@ -16,7 +16,7 @@ library(tidyverse)
 
 process_data = F
 generate_figures = T
-knit_manuscript = F
+knit_manuscript = T
 
 #### Process Data ####
 if(process_data == T){

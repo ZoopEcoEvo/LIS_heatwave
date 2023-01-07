@@ -132,40 +132,40 @@ ggarrange(comb_epr_plot, a, comb_hs_plot, comb_rf_plot, a, comb_tsc,
 ```{r figure-3-curve-parameters, warning = F, message = F, fig.width=6, fig.height=5.5}
 combined_opt_coll = comb_params %>% 
   filter(metric == "RF" & term == "topt") %>% 
-  ggplot(aes(x = growth_temp, y = estimate, colour = curve_id, group = species)) + 
+  ggplot(aes(x = growth_temp, y = estimate, shape = species)) + 
   geom_smooth(data = filter(comb_params, metric == "RF" & term == "topt" & curve_id != "November_2"),
               method = "lm", colour = "grey50") + 
-  geom_point(size = 3) + 
+  geom_point(size = 3, stroke = 1) + 
+  scale_shape_manual(values = c(16,21)) + 
   ylab("Optimum (degrees C)") + 
   xlab("Collection Temperature (degrees c)") + 
   labs(colour = "Month") + 
-  scale_colour_manual(values = comb_colors) + 
   theme_matt(base_size = 12)
 
 combined_opt_diff = comb_params %>% 
   filter(metric == "RF" & term == "topt") %>% 
-  ggplot(aes(x = growth_temp, y = margin, colour = curve_id, group = species)) +
+  ggplot(aes(x = growth_temp, y = margin, shape = species)) +
   geom_hline(yintercept = 0, size =1, linetype = "dashed") +
   geom_smooth(data = filter(comb_params, metric == "RF" & term == "topt" & curve_id != "November_2"),
               method = "lm", colour = "grey50") + 
-  geom_point(size = 3) + 
+  geom_point(size = 3, stroke = 1) + 
   ylab("Margin (degrees C)") + 
   xlab("Collection Temperature (degrees c)") + 
-  scale_colour_manual(values = comb_colors) + 
+  scale_shape_manual(values = c(16,21)) + 
   theme_matt(base_size = 12) 
 
-combined_ld_coll = ggplot(combined_tolerance, aes(x = Coll_temp, y = LD50, colour = Month, group = species)) + 
+combined_ld_coll = ggplot(combined_tolerance, aes(x = Coll_temp, y = LD50, shape = species)) + 
   geom_smooth(method = "lm", colour = "grey50") + 
-  geom_point(size = 3) + 
-  scale_colour_manual(values = comb_colors) + 
+  geom_point(size = 3, stroke = 1) + 
+  scale_shape_manual(values = c(16,21)) + 
   ylab("Thermal Tolerance (degrees C)") + 
   xlab("Collection Temperature (degrees c)") + 
   theme_matt(base_size = 12)
 
-combined_ld_diff = ggplot(combined_tolerance, aes(x = Coll_temp, y = margin, colour = Month, group = species)) +
+combined_ld_diff = ggplot(combined_tolerance, aes(x = Coll_temp, y = margin, shape = species)) +
   geom_smooth(method = "lm", colour = "grey50") + 
-  geom_point(size = 3) + 
-  scale_colour_manual(values = comb_colors) + 
+  geom_point(size = 3, stroke = 1) + 
+  scale_shape_manual(values = c(16,21)) + 
   ylab("Warming Tolerance (degrees C)") + 
   xlab("Collection Temperature (degrees c)") + 
   theme_matt(base_size = 12)
@@ -295,11 +295,11 @@ ggplot(comb_params, aes(x = growth_temp, y = estimate, colour = species)) +
   theme(panel.grid = element_blank())
 ```
 
-```{r margins-coll-temp, fig.height=3, fig.width=10}
+```{r margins-coll-temp, fig.height=9, fig.width=7}
 comb_params %>% 
   filter(term == "topt") %>% 
   ggplot(aes(x = growth_temp, y = margin, colour = species, group = species)) + 
-  facet_wrap(.~metric, scales = 'free_y') + 
+  facet_grid(metric~., scales = 'free_y') + 
   geom_hline(yintercept = 0) +
   geom_smooth(data = filter(comb_params, term == "topt" & curve_id != "November_2"),
               method = "lm", se = F, size = 2) + 
@@ -307,7 +307,7 @@ comb_params %>%
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
   labs(x = "Collection Temperature",
        y = "Safety Margin") + 
-  theme_bw() +
+  theme_bw(base_size = 18) +
   theme(panel.grid = element_blank())
 ```
 
@@ -427,7 +427,7 @@ F0_dur_summary %>%
                 width = 0.1, size = 1,
                 position = position_dodge(width = 0.9)) + 
   geom_hline(yintercept = 0) + 
-  scale_fill_manual(values = c("black", "white")) + 
+  scale_fill_manual(values = c("grey30", "white")) + 
   labs(x = "",
        y = "Effect Size (Hedge's g) \n Long - Short events") + 
   theme_pubr(base_size = 18)
