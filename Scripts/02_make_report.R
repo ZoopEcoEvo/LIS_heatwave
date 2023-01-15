@@ -76,7 +76,8 @@ if(generate_figures == T){
 #### Prepare Manuscript ####
 if(knit_manuscript == T){
   render(input = "Manuscript/Sasaki_et_al_2023.Rmd", #Input the path to your .Rmd file here
-         output_file = paste("draft_", Sys.Date(), ".pdf", sep = ""), #Name your file here; as it is, this line will create drafts specified with the date
+         output_file = paste("draft_", Sys.Date(), sep = ""), #Name your file here; as it is, this line will create drafts specified with the date
+         output_format = "all",
          output_dir = "Output/Drafts/") #Set the path to the desired output directory here
 }
 

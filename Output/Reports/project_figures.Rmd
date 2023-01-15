@@ -72,7 +72,7 @@ comb_epr_plot = comb_preds %>%
   geom_point(aes(temp, rate, colour = curve_id), filter(comb_d, metric == "EPR"), size = 1.5, alpha = 0.6, 
              position = position_jitter(width = 0.5, height = 0)) +
   geom_ribbon(aes(temp, ymin = conf_lower, ymax = conf_upper, group = curve_id), filter(comb_boot_conf_preds, metric == "EPR"), fill = 'grey60', alpha = 0.3) +
-  geom_line(aes(temp, .fitted, col = curve_id), size = 2) +
+  geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
@@ -124,12 +124,12 @@ comb_tsc = ggplot(comb_surv, aes(x=Temp, y=Surv, colour=Month)) +
   scale_colour_manual(values = comb_colors) + 
   theme_matt(base_size = 12)
 
-ggarrange(comb_epr_plot, a, comb_hs_plot, comb_rf_plot, a, comb_tsc, 
-          ncol = 3, nrow = 2, widths = c(1,.1,1),
-          common.legend = T, legend = "bottom")
+ggarrange(comb_epr_plot, comb_hs_plot, comb_rf_plot, comb_tsc, 
+          ncol = 2, nrow = 2,
+          common.legend = T, legend = "bottom", labels = "AUTO")
 ```
 
-```{r figure-3-curve-parameters, warning = F, message = F, fig.width=6, fig.height=5.5}
+```{r figure-3-curve-parameters, warning = F, message = F, fig.width=8, fig.height=7}
 combined_opt_coll = comb_params %>% 
   filter(metric == "RF" & term == "topt") %>% 
   ggplot(aes(x = growth_temp, y = estimate, shape = species)) + 
@@ -170,7 +170,8 @@ combined_ld_diff = ggplot(combined_tolerance, aes(x = Coll_temp, y = margin, sha
   xlab("Collection Temperature (degrees c)") + 
   theme_matt(base_size = 12)
 
-ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_diff, ncol = 2, nrow = 2, common.legend = T, legend = "bottom")
+ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_diff, ncol = 2, nrow = 2, common.legend = T,
+          legend = "bottom", labels = "AUTO")
 ```
 
 ```{r}
@@ -178,9 +179,8 @@ F0_rf_summary$month = factor(F0_rf_summary$month, levels = c("June", "August", "
 F0_rf_summary$duration = factor(F0_rf_summary$duration, levels = c("short", "long"))
 F0_dur_summary$month = factor(F0_dur_summary$month, levels = c("June", "August", "November"))
 
-param_list = list()
-param_list[["colour"]] = "black"
-param_list[["width"]] = 0.2
+param_list = list("colour" = "black",
+                  "width" = 0.2) 
 
 RF_short_db = plot(F0_RF_short, 
                    axes.title.fontsize = 10,
@@ -213,7 +213,7 @@ F0_grid = F0_rf_summary %>%
   geom_hline(yintercept = 0, colour = "black", size = 0.3) +
   geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1.3) + 
   geom_point(size = 5, fill = "white") + 
-  scale_colour_manual(values = c("body size" = "grey80", "production" = "black")) + 
+  scale_colour_manual(values = c("body size" = "grey75", "production" = "black")) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
   scale_x_discrete(labels= x.axis_labels) +
   ggtitle("Direct Effects (F0)") + 
@@ -228,7 +228,8 @@ F0_grid = F0_rf_summary %>%
 
 F1_summary = bind_rows(F1_rf_effect_size, F1_bs_effect_size) %>% 
   dplyr::select(variable, difference, bca_ci_low, bca_ci_high, month, duration, trait, generation, off_temp) %>% 
-  mutate("order_code" = paste(trait, duration, sep = "_"),
+  mutate(trait = str_replace_all(trait, "size", "body size"),
+         "order_code" = paste(trait, duration, sep = "_"),
          "order_number" = case_when(
            order_code == "production_short" ~ 1,
            order_code == "production_long" ~ 2,
@@ -302,7 +303,7 @@ comb_params %>%
   facet_grid(metric~., scales = 'free_y') + 
   geom_hline(yintercept = 0) +
   geom_smooth(data = filter(comb_params, term == "topt" & curve_id != "November_2"),
-              method = "lm", se = F, size = 2) + 
+              method = "lm", se = F, size = 1, colour = "black") + 
   geom_point(size = 4) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
   labs(x = "Collection Temperature",
@@ -338,7 +339,8 @@ F0_data = bind_rows(F0_hs_summary, F0_total_summary,F0_rf_summary, F0_size_summa
            order_code == "size_long" ~ 7),
          month = fct_relevel(month, "June", "August", "November"),
          trait = fct_relevel(trait, "total", "success", "production", "size"),
-         duration = fct_relevel(duration, "short", "long"))
+         duration = fct_relevel(duration, "short", "long"),
+         group_ID = paste(month, trait, sep = "_"))
 
 F0_data$order_number = factor(F0_data$order_number, levels = c(1,2,3,4,5,6,7))
 
@@ -364,10 +366,13 @@ F1_data = bind_rows(F1_total_effect_size, F1_hs_effect_size, F1_rf_effect_size, 
 F1_data$order_number = factor(F1_data$order_number, levels = c(1,2,3,4,5,6,7,8))
 
 #Top row - F0 (direct effects)
-x.axis_labels = c("1" = "short", "2" = "long", "3" = "short", "4" = "long", "5" = "short", "6" = "long", "7" = "short", "8" = "long")
+x.axis_labels = c("1" = "short", "2" = "long", "3" = "short", "4" = "long", 
+                  "5" = "short", "6" = "long", "7" = "short", "8" = "long")
 
-F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, shape = duration)) + 
+F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, group = group_ID)) + 
   facet_grid(. ~ month) + 
+  geom_line(position = position_dodge(width = 0.7),
+            linewidth = 1) + 
   geom_hline(yintercept = 0, colour = "black", size = 0.3) +
   geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1, 
                 position = position_dodge(width = 0.7)) + 
@@ -387,10 +392,11 @@ F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, shap
         legend.position = "none")
 
 #Following three rows - F1 (transgeneration / indirect effects)
-F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, shape = duration, group = trait)) + 
+F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, group = trait)) + 
   facet_grid(off_temp ~ month, ) + 
   geom_hline(yintercept = 0, colour = "black", size = 0.3) +
-  geom_line(position = position_dodge(width = 0.5)) + 
+  geom_line(position = position_dodge(width = 0.5),
+            linewidth = 1) + 
   geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1,
                 position = position_dodge(width = 0.5)) + 
   geom_point(size = 3, fill = "white", position = position_dodge(width = 0.5)) + 
@@ -402,7 +408,7 @@ F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, shap
                                  "production" = "forestgreen",
                                  "total" = "cornflowerblue")) + 
   xlab("") +
-  ylab("Effect Size") + 
+  ylab("Effect Size \nHeatwave - Control") + 
   theme_bw(base_size = 12) + 
   theme(panel.grid = element_blank(),
         strip.background.x = element_blank(),
@@ -413,7 +419,7 @@ F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, shap
 ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.35,1), common.legend = T, legend = "right")
 ```
 
-```{r Supp-Fig-1-F0-treatement-effects-est-plots, fig.height=11, fig.width=8}
+```{r F0-production, fig.height=11, fig.width=8}
 F0_fecundity_plot
 ```
 
@@ -456,6 +462,8 @@ F1_data %>%
 
 
 ```{r sig-F1-duration-effects, fig.width=8, fig.height=8}
+#Pulls out reaction norms where there's a sign change (changes from positive, neutral, or negative between duration groups) 
+
 duration_effects = F1_data %>% 
   dplyr::select(month, duration, off_temp, trait, difference, bca_ci_low, bca_ci_high) %>% 
   mutate("ID" = paste(month, off_temp, trait, sep = "_"),
@@ -592,15 +600,16 @@ ggarrange(June_rf_short_plot, June_rf_long_plot,
           vjust = -0.2)
 ```
 
-```{r Supp-Fig-4-F1-body-size-vs-temperature}
+```{r F1-body-size-vs-temperature}
 seasonal_cols = c("June" = "#E69F00", "August" = "#D55E00", "November" = "#0072B2")
 F1_fbs$ID = paste(F1_fbs$Month, F1_fbs$Parental_treatment, F1_fbs$Day, sep = "_")
-ggplot(F1_fbs, aes(x = Offspring_temp, y = Size, colour = Month, group = ID, linetype = Parental_treatment)) + 
+F1_fbs$Month = fct_relevel(F1_fbs$Month, "June", "August", "November")
+
+ggplot(F1_fbs, aes(x = Offspring_temp, y = Size, colour = Day, group = ID)) + 
+  facet_grid(Month~Parental_treatment) + 
   geom_jitter(width = 0.5, size = 1.6, alpha = 0.4) +
   geom_smooth(method = "lm", size = 1.4, alpha = 0.2) + 
-  theme_pubr() + theme(legend.position = "right") + 
   scale_x_continuous(breaks = c(12,17,22)) + 
-  scale_colour_manual(values = seasonal_cols)
+  theme_bw() + theme(legend.position = "right",
+                     panel.grid = element_blank())
 ```
-
-
