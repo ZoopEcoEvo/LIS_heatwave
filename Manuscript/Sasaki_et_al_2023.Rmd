@@ -131,7 +131,7 @@ The effect sizes the difference between heatwave and control trial offspring are
 #| fig.cap = "CAPTION HERE."
 
 
-knitr::include_graphics("../Output/Figures/markdown/figure-4-sim-heatwave-effects-1.png")
+knitr::include_graphics("../Output/Figures/afdesigner/figure-4-sim-heatwave-effects.jpg")
 ```
 
 We also examined the effects of parental exposure to heatwaves on offspring traits. Comparing between Control and Heatwave treatments now examines not the direct effects of increased temperature, but the indirect effect on offspring of parental exposure to heatwaves. In both panels, the gray boxes indicate the developmental temperature most similar to that experienced by offspring of the parental generation in the field.    
