@@ -227,9 +227,10 @@ F0_grid = F0_rf_summary %>%
         legend.position = "none")
 
 F1_summary = bind_rows(F1_rf_effect_size, F1_bs_effect_size) %>% 
-  dplyr::select(variable, difference, bca_ci_low, bca_ci_high, month, duration, trait, generation, off_temp) %>% 
-  mutate(trait = str_replace_all(trait, "size", "body size"),
-         "order_code" = paste(trait, duration, sep = "_"),
+  dplyr::select(variable, difference, 
+                bca_ci_low, bca_ci_high, 
+                month, duration, trait, generation, off_temp) %>% 
+  mutate("order_code" = paste(trait, duration, sep = "_"),
          "order_number" = case_when(
            order_code == "production_short" ~ 1,
            order_code == "production_long" ~ 2,
@@ -323,7 +324,7 @@ F1_total_effect_size$generation = "F1"
 F1_rf_effect_size$trait = "production"
 F1_rf_effect_size$generation = "F1"
 
-F1_bs_effect_size$trait = "size"
+F1_bs_effect_size$trait = "body size"
 F1_bs_effect_size$generation = "F1"
 
 F0_data = bind_rows(F0_hs_summary, F0_total_summary,F0_rf_summary, F0_size_summary) %>% 
@@ -355,8 +356,8 @@ F1_data = bind_rows(F1_total_effect_size, F1_hs_effect_size, F1_rf_effect_size, 
            order_code == "success_long" ~ 4,
            order_code == "production_short" ~ 5,
            order_code == "production_long" ~ 6,
-           order_code == "size_short" ~ 7,
-           order_code == "size_long" ~ 8),
+           order_code == "body size_short" ~ 7,
+           order_code == "body size_long" ~ 8),
          trait = if_else(trait == "epr", "total", trait),
          month = fct_relevel(month, "June", "August", "November"),
          trait = fct_relevel(trait, "total", "success", "production", "size"),
@@ -418,6 +419,21 @@ F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, grou
 
 ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.35,1), common.legend = T, legend = "right")
 ```
+
+```{r}
+effect_corr = F1_summary %>% 
+  select(trait, difference, month, duration, off_temp) %>%  
+  pivot_wider(id_cols = c(month, duration, off_temp),
+              names_from = trait, 
+              values_from = difference)
+
+ggplot(effect_corr, aes(x = `body size`, y = production)) + 
+  geom_point() + 
+  labs(x = "Body Size Effect",
+       y = "Production Effect") + 
+  theme_matt(base_size = 18)
+```
+
 
 ```{r F0-production, fig.height=11, fig.width=8}
 F0_fecundity_plot

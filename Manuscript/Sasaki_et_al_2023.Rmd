@@ -104,11 +104,9 @@ There was abundant variation in TPCs for Egg Production Rate (EPR), Hatching Suc
 knitr::include_graphics("../Output/Figures/markdown/figure-2-combined-tpcs-1.png")
 ```
 
-[Thermal safety margin]       
-TPC parameters for *A. tonsa* but not *A. hudsonica* were correlated with collection temperature, with the exception of the second November collection, which had the highest production thermal optimum despite being collected at the lowest temperature. Vulnerability to heatwaves was estimated from these performance curves as thermal safety margins for production (the difference between thermal optimum and environmental temperature) and warming tolerance for survivorship (difference between thermal tolerance LD50 and environmental temperature) (REF - Deutsch paper). The invariant thermal optimum for *A. hudsonica* production results in seasonal variation in the effect of heatwaves, as illustrated by the decline in thermal safety margin and warming tolerance during later months of its seasonal occurrence (Figure 3). for this species. Later in its season of occurrence, environmental temperatures actually exceed the thermal optimum, suggesting that the seasonal distribution of this species may be directly affected by temperature, and that heatwaves occurring in the late Spring and early Summer could have strong detrimental effects. By contrast, the seasonally variable *A. tonsa* production TPCs resulted in relatively stable thermal safety margins. Throughout its season of occurrence, *A. tonsa* maintained a buffer of at least 5 degrees C, suggesting that at all times a mild heatwave would increase production by pushing environmental temperatures closer to the thermal optimum. The one outlier was the second November collection, which was collected atx 11 degrees C. This is around the threshold for resting egg production in *A. tonsa*. The extremely high estimated production optimum temperature may reflect the difference in hatching requirements between resting and subitaneous eggs.   
+TPC parameters for *A. tonsa* but not *A. hudsonica* were correlated with collection temperature, with the exception of the second November collection of *A. tonsa*, which had the highest production thermal optimum despite being collected at the lowest temperature. Vulnerability to heatwaves was estimated from these performance curves as thermal safety margins for production (the difference between thermal optimum and environmental temperature) and warming tolerance for survivorship (difference between thermal tolerance, LD50, and environmental temperature) (REF - Deutsch paper). The invariant thermal optima for *A. hudsonica* production results in seasonal variation in vulnerability to heatwaves, as illustrated by the decline in thermal safety margin and warming tolerance during later months of its seasonal occurrence (Figure 3). Later in its season of occurrence, environmental temperatures actually exceed the thermal optimum, suggesting that the seasonal distribution of this species may be directly affected by temperature, and that heatwaves occurring in the late Spring and early Summer could have strong detrimental effects on population dynamics. By contrast, the seasonally variable *A. tonsa* production TPCs resulted in relatively stable thermal safety margins. Throughout its season of occurrence, *A. tonsa* maintained a buffer of at least 5 degrees C, suggesting that at all times mild warming would increase production by pushing environmental temperatures closer to the thermal optimum. The one outlier was the second November collection, which was collected at 11 degrees C. This is around the threshold for resting egg production in *A. tonsa* (REF). The extremely high estimated optimum temperature for production in this collection may reflect the difference in hatching requirements between resting and subitaneous eggs.   
 
-[Warming tolerance]   
-Thermal tolerance increased with collection temperature in both temperatures, but this trend was not significant (STATS). Despite this, warming tolerance decreased as collection temperature increased, indicating imperfect compensation via either acclimatization or adaptation. While collection temperatures never exceeded thermal tolerance for either species, the lower thermal tolerance of *A. hudsonica* translated to reduced warming tolerance relative to *A. tonsa*, again suggesting that the seasonal occurence of this species may be delimited at least in part by direct effects of temperature.     
+Thermal tolerance increased with collection temperature in both species, although this trend was not significant (STATS). Warming tolerance decreased as collection temperature increased, indicating imperfect compensation via either acclimatization or adaptation. While collection temperatures never exceeded thermal tolerance for either species, the lower thermal tolerance of *A. hudsonica* translated to reduced warming tolerance relative to *A. tonsa*, again suggesting that the seasonal occurrence of this species may be delimited at least in part by direct effects of temperature.     
 
 ```{r, figure3, echo = F, out.width = "400px"}
 #| fig.cap = "CAPTION HERE."
@@ -117,15 +115,9 @@ knitr::include_graphics("../Output/Figures/markdown/figure-3-curve-parameters-1.
 ```
 
 ## Effects of Simulated Heatwaves {.unnumbered}   
-The second component of this project examined the effects of heatwaves across generations in seasonal collections of *Acartia tonsa*. This necessarily began with reassessing the field collected F0. We examined the effects of short or long duration artificial heatwaves on EPR, HS, and production. We will focus the analysis on production, as it integrates the other traits. The ANOVA indicated no significant overall effect of heatwaves on production (p-value = 0.38). There was, however, a significant interaction between treatment and collection month (p-value = 0.01), indicating different effects of heatwaves across months. The different trial duration and collection months were also significantly different, with a significant interaction term as well. ANOVA results are shown in Supp. Table 1.   
+The second component of this project examined the effects of heatwaves across generations in seasonal collections of *Acartia tonsa*. This began by assessing the impact of a simulated warming event on field collected (F0) individuals. We examined the effects of warming for 1-3 days (acute events) and 5-7 days (short heatwaves) on EPR, HS, and production (Supp. Fig. Xa). In all cases, the effect of these warming events was assessed using an effect size estimate (Hedge's g), comparing the warming to the control treatment. 
 
-REWRITE THIS SECTION FOR THE NEW RESULTS    
-Parental exposure to heatwaves tended to decrease offspring body size.    
-There was no consistent effect on offspring production, but there did tend to be a stronger effect of long duration heatwaves than shorter events.    
-
-The effect sizes the difference between heatwave and control trial offspring are shown below. Short and long duration trials are shown in XXXXX, respectively, in the first panel. The control and heatwave treatments are shown with different shapes in the second panel. Full Gardner-Altman estimation plots are shown in Supp. Fig 1 and 2. Effects of heatwaves were generally weak; only long heatwaves in June and short heatwaves in August had confidence intervals that did not (or nearly did not) overlap zero. In contrast, there were strong decreases in long duration trials relative to short trials, in both control and heatwave treatments.    
-
-## Transgenerational Effects of Simulated Heatwaves {.unnumbered}   
+For the June collection, there was an increase in EPR in response to acute warming, and a decrease in HS in response to the longer duration event. Production, integrating both EPR and HS, exhibited only a small decrease in the longer duration warming treatment. In the August copepods, there was an increase in EPR but a decrease in HS during both short and longer events. The increase in EPR was large enough, however, to result in a small increase in production during both short and long events. In November, warming resulted in a large increase in EPR regardless of the duration of the event. There was no effect of warming on HS, however, limiting the increase in production. The effect of warming duration (the comparison between long and short events) was similar for production in both control and warming groups, in all three months (Supp. Fig. X). This suggests that seasonal variation in the effects of warming may be more consequential than differences between short and long events (at least at the daily to weekly timescales examined here). 
 
 ```{r, figure4, echo = F, out.width = "400px"}
 #| fig.cap = "CAPTION HERE."
@@ -134,22 +126,27 @@ The effect sizes the difference between heatwave and control trial offspring are
 knitr::include_graphics("../Output/Figures/afdesigner/figure-4-sim-heatwave-effects.jpg")
 ```
 
-We also examined the effects of parental exposure to heatwaves on offspring traits. Comparing between Control and Heatwave treatments now examines not the direct effects of increased temperature, but the indirect effect on offspring of parental exposure to heatwaves. In both panels, the gray boxes indicate the developmental temperature most similar to that experienced by offspring of the parental generation in the field.    
+## Transgenerational Effects of Simulated Heatwaves {.unnumbered}   
+Comparing between Control and Heatwave treatments now examines not the direct effects of increased temperature, but the indirect effect of parental exposure to heatwaves on offspring performance. Results were highly variable across developmental temperatures, parental exposure duration, and monthly collections. For the June and August collections, effect sizes were often similar across all three reproductive traits (June copepods at 17C and 22C, and August copepods at 12 C). When effect sizes differed between traits, EPR tended to be most strongly affected by parental exposure to warming (June copepods at 18C, and August copepods at 17C and 22C). Differences between effects on EPR and HS often ameliorated the effects on production, which was generally least affected by parental exposure to warming. There were significant decreases in production driven by parental exposure to longer duration warming in offspring developed at 17C for both June and August collections, however. A small increase in production resulted from parental exposure to acute warming in the June copepods reared at 17C. This was the only observation of a positive effect of parental exposure to warming on production for the June and August copepods. 
 
-**Body Size** - Offspring body size generally decreased with developmental temperature, as expected (Supp. Fig. 4). Within individual developmental temperatures, parental exposure to heatwaves also generally resulted in small decreases in body size. Short and long duration events are shown with open and filled circles respectively.   
+Effects on November copepods were drastically different from those observed in June and August copepods. Instead of primarily affecting EPR, parental exposure to warming generally had large effects on HS in the November copepods. There were also significant positive effects of parental exposure to warming in copepods that developed at 17C and 22C in this group. Unlike in June and August, there were never negative effects of parental exposure to warming on November copepods. 
 
-**Fecundity** - There were no consistent patterns in the effects of parental exposure to heatwaves across developmental temperatures, heatwave duration, or time of year.   
+Parental exposure to warming generally (but not always) reduced offspring body size. The effects of parental exposure to warming on production and body size were not correlated (Supp. Fig. X). Offspring body size generally decreased with developmental temperature, as expected (Supp. Fig. X); within treatments this effect of developmental temperature tended to be stronger than the effect of duration. 
 
 # Discussion {.unnumbered}    
-We have shown that there is seasonal variation in the TPC for multiple fitness-related traits in the Long Island Sound population of *A. tonsa*, but not *A. hudsonica*. The different levels of seasonal variation result in different relative vulnerabilities of the two species to heatwaves; stronger seasonal variation in *A. tonsa* prevents decreases in the thermal safety margin throughout its season of occurrence, whereas the thermal safety margin shrinks drastically in less seasonally-variable *A. hudsonica*.    
+We have shown that there is seasonal variation in the TPC for multiple fitness-related traits in the Long Island Sound population of *A. tonsa*, but not *A. hudsonica*. The different levels of seasonal variation result in different relative vulnerabilities of the two species to heatwaves; stronger seasonal variation in *A. tonsa* limits decreases in the thermal safety margin throughout its season of occurrence, whereas the thermal safety margin shrinks drastically in less seasonally-variable *A. hudsonica*. [Simulated heatwave summary]    
 
-[Simulated heatwave summary]    
+Trans-generational effects of heatwaves were highly variable. Parental exposure to heat waves generally decreased offspring body size, but had no consistent effects on F1 production rates. While effects on body size were dissimilar across monthly collections, there were at least superficial similarities between June and August production effect sizes, with strong differences between these and the November copepods. Previous work has shown strong genetic divergence between summer and fall *A. tonsa*, suggesting that these similarities and differences may reflect different genetic backgrounds.  
 
-Trans-generational effects of heatwaves were highly variable. Parental exposure to heat waves generally decreased offspring body size, but had no consistent effects on F1 production rates. Effects were particularly small when looking just at the developmental temperatures the offspring would experience in the field - At these temperatures, only parental exposure to heatwaves in August resulted in a decrease in offspring production or reduced body sizes.   
+The expectation is that production should decrease as body size decreases due to the effects on EPR. However, the changes in production were independent of changes in body size (Supp. Fig. 6). Instead, the observed effects are more likely to be the result of other mechanisms (such as maternal effects or transgenerational plasticity).     
 
 As a result, we'd predict heat waves should have a beneficial effect, regardless of seasonal timing, by moving the population towards its optimum temperature. However, strong heatwaves during the warmest times may have an adverse effect on survivorship, unless other mechanisms (e.g. - acclimation and phenotypic plasticity) adjust thermal tolerance.    
 
-The expectation is that production should decrease as body size decreases due to the effects on EPR. However, the changes in production were independent of changes in body size (Supp. Fig. 6). Instead, the observed effects are more likely to be the result of other mechanisms (such as maternal effects or transgenerational plasticity).     
+Lab results don’t quite mesh with field observations: 
+- Larger safety margins should correlate with positive effects of heatwaves 
+- While small, the only “beneficial” effects of heatwaves were observed during the hottest time of year (August)  
+
+Not only did the effect of duration differ across offspring developmental temperature, the pattern of this variation across developmental temperatures varied across collections. This highlights that the results of parental exposure are highly context specific, reinforcing that caution is warranted when extrapolating the results of both acute warming and short heatwave events from laboratory experiments to the response of natural populations. 
 
 \newpage    
 
@@ -158,6 +155,17 @@ The expectation is that production should decrease as body size decreases due to
 ```
 
 # Supplementary Material {.unnumbered}      
+
+- all parameter estimates (vs. month)
+- all parameter estimates (vs. collection temperature)
+- all safety margins (vs. collection temperature)
+- all effect sizes (F0 and F1 grids)
+- F1 sign change effects? 
+- duration effect sizes 
+- body size vs. dev temp
+- Estimation Plots
+- parental exposure to warming on production and body size
+
 
 ## Supp. Table 1 {.unnumbered}
 

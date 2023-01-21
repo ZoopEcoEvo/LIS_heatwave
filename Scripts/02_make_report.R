@@ -15,7 +15,7 @@ library(ggrepel)
 library(tidyverse)
 
 process_data = F
-generate_figures = T
+generate_figures = F
 knit_manuscript = T
 
 #### Process Data ####
@@ -68,7 +68,7 @@ if(generate_figures == T){
   }
   
   render(input = "Output/Reports/project_figures.Rmd", #Input the path to your .Rmd file here
-         output_file = "project_figures.html", #Name your figure summary file here; as it is, report name includes the date
+         output_file = "project_figures", #Name your figure summary file here; as it is, report name includes the date
          output_format = "all") # NOTE: This will render the document once per output specified in the YAML
                                 # As a result, this can take a long time, depending on the complexity of the .Rmd
 }
