@@ -1,6 +1,11 @@
 ---
-title: Seasonally variable thermal performance curves prevent adverse effects of heatwaves
-authors:
+output: 
+  stevetemplates::article:
+    fig_caption: true
+#bibliography: references.bib
+title: "Seasonally variable thermal performance curves prevent adverse effects of heatwaves"
+thanks: "Replication files are available on the author's Github account (http://github.com/svmiller). **Current version**: `r format(Sys.time(), '%B %d, %Y')`; **Corresponding author**: svmille@clemson.edu."
+author:
   - name: Matthew C. Sasaki
     department: Department of Marine Sciences
     affiliation: University of Connecticut
@@ -14,25 +19,14 @@ authors:
     department: Department of Marine Sciences
     affiliation: University of Connecticut
     location: Groton, CT 06340
-abstract: |
-  The increasing frequency and intensity of heatwaves may represent a significant challenge for organisms in a warming ocean. The direct impacts of heatwaves on populations depend on the relative position of environmental temperatures to the thermal performance curve optima. The effects of heatwaves may therefore vary seasonally along the annual temperature cycle. However, this seasonal variation in the effects of heatwaves may be dampened by corresponding variation in thermal performance curves. In organisms with relatively short generation times, these changes may be driven by phenotypic plasticity as well as genetic differentiation. We investigate the effects of seasonal timing and duration on the impacts of heatwaves in the ecologically important copepod Acartia tonsa. We show that thermal performance curves are seasonally variable in the field, and that this variation buffers against negative effects of simulated heatwaves. Further, the offspring of individuals that experienced the simulated heatwaves were raised in the laboratory to examine trans-generational effects of heatwaves on body size and reproductive output. The lack of a clear pattern in the trans-generational effects may indicate that seasonal variation in thermal performance curves also buffers against indirect effects of heat waves by reducing the effects of parental stress on the offspring. Our results show that seasonal variation in thermal performance curves has the potential to limit the adverse effects of heatwaves on populations of short-lived organisms.
-keywords:
-  - Heat wave
-  - Climate change
-  - Copepod
-  - Transgenerational plasticity
-  - Seasonal variation
-  - Thermal performance
-bibliography: references.bib
-biblio-style: unsrt
-output:
-  rticles::arxiv_article:
-          keep_tex: false
-  #stevetemplates::article:
-  word_document: default
-header-includes: 
-  \usepackage{float} \floatplacement{figure}{H} 
-  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+abstract: "The increasing frequency and intensity of heatwaves may represent a significant challenge for organisms in a warming ocean. The direct impacts of heatwaves on populations depend on the relative position of environmental temperatures to the thermal performance curve optima. The effects of heatwaves may therefore vary seasonally along the annual temperature cycle. However, this seasonal variation in the effects of heatwaves may be dampened by corresponding variation in thermal performance curves. In organisms with relatively short generation times, these changes may be driven by phenotypic plasticity as well as genetic differentiation. We investigate the effects of seasonal timing and duration on the impacts of heatwaves in the ecologically important copepod Acartia tonsa. We show that thermal performance curves are seasonally variable in the field, and that this variation buffers against negative effects of simulated heatwaves. Further, the offspring of individuals that experienced the simulated heatwaves were raised in the laboratory to examine trans-generational effects of heatwaves on body size and reproductive output. The lack of a clear pattern in the trans-generational effects may indicate that seasonal variation in thermal performance curves also buffers against indirect effects of heat waves by reducing the effects of parental stress on the offspring. Our results show that seasonal variation in thermal performance curves has the potential to limit the adverse effects of heatwaves on populations of short-lived organisms."
+keywords: "pandoc, r markdown, knitr"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+geometry: margin=1in
+fontfamily: mathpazo
+fontsize: 11pt
+# spacing: double
+endnote: no
 ---
 
 # Introduction {.unnumbered}    
@@ -52,6 +46,7 @@ Copepods were collected from Long Island Sound, near the University of Connectic
 
 **Will need substantial input from other people to fill in the methods section.**   
 ```{r table1, echo = F}
+library(tidyverse)
 
 field_collections = data.frame("Month" = c("January", "February", "March", "April", "May", "June", 
                                            "July", "August", "September", "October", "November 1", "November 2"),
@@ -149,68 +144,12 @@ Lab results don’t quite mesh with field observations:
 
 Not only did the effect of duration differ across offspring developmental temperature, the pattern of this variation across developmental temperatures varied across collections. This highlights that the results of parental exposure are highly context specific, reinforcing that caution is warranted when extrapolating the results of both acute warming and short heatwave events from laboratory experiments to the response of natural populations. 
 
-\newpage    
 
-```{=tex}
-\beginsupplement
-```
-
-# Supplementary Material {.unnumbered}      
-
-- all parameter estimates (vs. month)
-- all parameter estimates (vs. collection temperature)
-- all safety margins (vs. collection temperature)
-- all effect sizes (F0 and F1 grids)
-- F1 sign change effects? 
-- duration effect sizes 
-- body size vs. dev temp
-- Estimation Plots
-- parental exposure to warming on production and body size
-
-
-## Supp. Table 1 {.unnumbered}
-
-## Supp. Table 2 {.unnumbered}
-
-## Supp. Table 3 {.unnumbered}
-
-## Supp. Fig. 1 {.unnumbered}
-
-These plots follow best practices for the visualization of differences between groups. The top half of each figure shows the underlying data points in a swarm plot. To the right of each each swarm is the mean and standard deviation of the group, represented using a gapped bar (gap = mean value). Below the raw data, the effect size and 95% confidence intervals are shown, which were obtained using non-parametric bootstrap resampling. Confidence intervals that do not cross the 0 effect size line indicate significant differences between groups.
-
-```{r, supp-fig-1, echo = F, out.width = "350px"}
-#| fig.cap = "CAPTION HERE."
-
-#knitr::include_graphics("../Output/Figures/markdown/F0-treatement-effects-est-plots-1.png")
-```
-
-\newpage
-
-```{r, supp-fig-2, echo = F, out.width = "350px"}
-#| fig.cap = "Effects of parental exposure to heatwaves on F1 body size at different developmental temperatures."
-
-#knitr::include_graphics("../Output/Figures/markdown/F1-body-size-eff-plots-1.png")
-```
-
-\newpage
-
-```{r, supp-fig-3, echo = F, out.width = "350px"}
-#| fig.cap = "Effects of parental exposure to heatwaves on F1 egg production at different developmental temperatures."
-
-#knitr::include_graphics("../Output/Figures/markdown/F1-total-epr-eff-plots-1.png")
-```
-
-\newpage
-
-```{r, supp-fig-4, echo = F, out.width = "350px"}
-#| fig.cap = "Effects of parental exposure to heatwaves on F1 hatching success at different developmental temperatures."
-
-#knitr::include_graphics("../Output/Figures/markdown/F1-hatching-success-eff-plots-1.png")
-```
-
-\newpage
-
-```{r, supp-fig-5, echo = F, out.width = "350px"}
-#| fig.cap = "Effects of parental exposure to heatwaves on F1 production at different developmental temperatures."
-#knitr::include_graphics("../Output/Figures/markdown/F1-production-eff-plots-1.png")
-```
+<!--
+# References
+\setlength{\parindent}{-0.2in}
+\setlength{\leftskip}{0.2in}
+\setlength{\parskip}{8pt}
+\vspace*{-0.2in}
+\noindent
+-->
