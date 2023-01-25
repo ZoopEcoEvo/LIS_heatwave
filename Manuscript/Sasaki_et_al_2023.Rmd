@@ -5,7 +5,8 @@ output:
     fig_caption: true
     keep_tex: false
     citation_package: natbib
-  word_document: default
+  word_document: 
+    reference_docx: "doc_template.docx"
 title: "Seasonally variable thermal performance curves prevent adverse effects of heatwaves"
 author:
   - name: Matthew C. Sasaki
