@@ -9,6 +9,8 @@ $else$
 \usepackage[T1]{fontenc}
 $endif$
 
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
 
 \usepackage{abstract}
 \renewcommand{\abstractname}{}    % clear the title
@@ -98,13 +100,6 @@ $if(natbib)$
 \usepackage[strings]{underscore} % protect underscores in most circumstances
 $endif$
 
-$if(biblatex)$
-\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
-$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
-$for(bibliography)$
-\addbibresource{$bibliography$}
-$endfor$
-$endif$
 $if(listings)$
 \usepackage{listings}
 $endif$
@@ -276,10 +271,7 @@ $endif$
 
 $endif$
 $endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 
-$endif$
 $for(include-after)$
 $include-after$
 

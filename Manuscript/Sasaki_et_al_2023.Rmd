@@ -27,6 +27,7 @@ keywords: "Heatwave, Climate Change, Copepod, Transgenerational Plasticity, Seas
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 thanks: "**Corresponding author**: matthew.sasaki@uconn.edu. **Project repo**: https://github.com/ZoopEcoEvo/LIS_heatwave (This preprint is current as of `r format(Sys.time(), '%B %d, %Y')`)"
 bibliography: references.bib
+biblio-style: bib_style
 geometry: margin=1in
 fontsize: 10pt
 header-includes: 
@@ -36,7 +37,7 @@ header-includes:
 
 # Introduction
 
-Heatwaves are increasing in frequency and intensity in aquatic ecosystems (Frölicher et al. 2018; Oliver et al. 2018, 2019) (Streams and rivers REF). These periods of anomalously high temperatures present severe challenges to marine biota (Smale et al. 2019), and both lethal and non-lethal temperature effects on organisms have strong potential to alter community composition and ecosystem functions (Truong 2022 REF). The effects on community dynamics are determined in part by the relative vulnerabilities of component taxa (REF). In order to predict how communities may respond to both long-term warming and the increasing effects of heatwaves, there is an urgent need to understand what determines relative vulnerability to heatwaves.
+Heatwaves are increasing in frequency and intensity in aquatic ecosystems [@frolicher2018; @oliver2018; @tassone2022]. These periods of anomalously high temperatures present severe challenges to marine biota [@smale2019] in part by the relative vulnerabilities of component taxa (REF). In order to predict how communities may respond to both long-term warming and the increasing effects of heatwaves, there is an urgent need to understand what determines relative vulnerability to heatwaves.
 
 Most previous studies have focused on the direct effects of increased temperature on organisms and population dynamics (REF). Shaped by resulting changes in feeding, competitive ability, reproduction, and survival, increased temperature during a heatwave may have profound effects on community dynamics (REF) and the distribution of organisms (REF). There may also be a wide range of indirect effects of heatwaves on populations, propagated by mechanisms like trans-generational plasticity and maternal effects (Truong 2022 - REF). As both the frequency and duration of heatwaves increases, these indirect effects may be especially important to consider (papers on the benefits of trans-generational effects for events that last a long time (relative to generation time) - REF). While the average duration of marine heatwaves is XXX, autotrophs (e.g. phytoplankton) and primary consumers (e.g. copepods) typically have generation times on the order of days to weeks. As such, heatwaves have strong potential to drive transgenerational responses.
 
@@ -157,13 +158,12 @@ Lab results don't quite mesh with field observations: - Larger safety margins sh
 
 Not only did the effect of duration differ across offspring developmental temperature, the pattern of this variation across developmental temperatures varied across collections. This highlights that the results of parental exposure are highly context specific, reinforcing that caution is warranted when extrapolating the results of both acute warming and short heatwave events from laboratory experiments to the response of natural populations.
 
-\newpage 
+\newpage
 
 ```{=tex}
 \beginsupplement 
-
 ```
-# Supplementary Material 
+# Supplementary Material
 
 -   all parameter estimates (vs. month)
 -   all parameter estimates (vs. collection temperature)
@@ -181,7 +181,6 @@ Not only did the effect of duration differ across offspring developmental temper
 
 ## Supp. Table 3
 
-
 ```{r, supp-fig-1, echo = F, out.width = "350px"}
 #| fig.cap = "These plots follow best practices for the visualization of differences between groups. The top half of each figure shows the underlying data points in a swarm plot. To the right of each each swarm is the mean and standard deviation of the group, represented using a gapped bar (gap = mean value). " 
 
@@ -192,7 +191,6 @@ plot(1)
 #knitr::include_graphics("../Output/Figures/markdown/F0-treatement-effects-est-plots-1.png")
 ```
 
-
 ```{r, supp-fig-2, echo = F, out.width = "350px"}
 #| fig.cap = "Effects of parental exposure to heatwaves on F1 body size at different developmental temperatures." 
 
@@ -201,7 +199,6 @@ plot(c(1:10) ~ c(10:1))
 
 #knitr::include_graphics("../Output/Figures/markdown/F1-body-size-eff-plots-1.png")
 ```
-
 
 ```{r, supp-fig-3, echo = F, out.width = "350px"}
 #| fig.cap = "Effects of parental exposure to heatwaves on F1 egg production at different developmental temperatures."
@@ -213,14 +210,12 @@ plot(c(1:10) ~ c(10:1))
 #knitr::include_graphics("../Output/Figures/markdown/F1-total-epr-eff-plots-1.png")
 ```
 
-
 ```{r, supp-fig-4, echo = F, out.width = "350px"}
 #| fig.cap = "Effects of parental exposure to heatwaves on F1 hatching success at different developmental temperatures."
 
 
 #knitr::include_graphics("../Output/Figures/markdown/F1-hatching-success-eff-plots-1.png")
 ```
-
 
 ```{r, supp-fig-5, echo = F, out.width = "350px"}
 #| fig.cap = "Effects of parental exposure to heatwaves on F1 production at different developmental temperatures."
