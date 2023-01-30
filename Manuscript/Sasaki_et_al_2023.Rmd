@@ -6,7 +6,7 @@ output:
     keep_tex: false
     citation_package: natbib
   word_document: 
-    reference_docx: "doc_template.docx"
+    reference_docx: doc_template.docx
 title: "Seasonally variable thermal performance curves prevent adverse effects of heatwaves"
 author:
   - name: Matthew C. Sasaki
@@ -26,9 +26,9 @@ abstract: "The increasing frequency and intensity of heatwaves may represent a s
 keywords: "Heatwave, Climate Change, Copepod, Transgenerational Plasticity, Seasonal Variation, Thermal Performance"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 thanks: "**Corresponding author**: matthew.sasaki@uconn.edu. **Project repo**: https://github.com/ZoopEcoEvo/LIS_heatwave (This preprint is current as of `r format(Sys.time(), '%B %d, %Y')`)"
-bibliography: references.bib
-biblio-style: bib_style
-geometry: margin=1in
+bibliography: references.bib 
+biblio-style: bib-style 
+geometry: margin=1in 
 fontsize: 10pt
 header-includes: 
   \usepackage{float} \floatplacement{figure}{H} 
@@ -41,7 +41,7 @@ Heatwaves are increasing in frequency and intensity in aquatic ecosystems [@frol
 
 Most previous studies have focused on the direct effects of increased temperature on organisms and population dynamics (REF). Shaped by resulting changes in feeding, competitive ability, reproduction, and survival, increased temperature during a heatwave may have profound effects on community dynamics (REF) and the distribution of organisms (REF). There may also be a wide range of indirect effects of heatwaves on populations, propagated by mechanisms like trans-generational plasticity and maternal effects (Truong 2022 - REF). As both the frequency and duration of heatwaves increases, these indirect effects may be especially important to consider (papers on the benefits of trans-generational effects for events that last a long time (relative to generation time) - REF). While the average duration of marine heatwaves is XXX, autotrophs (e.g. phytoplankton) and primary consumers (e.g. copepods) typically have generation times on the order of days to weeks. As such, heatwaves have strong potential to drive transgenerational responses.
 
-Another important consequence of short generation times, the response of these key groups to heatwaves may vary over seasonal timescales, reflecting either acclimatization or adaptation of thermal performance curves to different seasonal conditions @sasaki2020 (Sasaki and Dam 2020; Adaptive tracking paper). The presence or absence of seasonal variation in thermal performance curves will play an important role in determining the effects of heatwaves on a population (Figure 1). Much of the past work on the effects of heatwaves assumes performance curves are fixed (i.e. - there is no seasonal variation in TPCs). In this case, the effect of heatwaves will vary seasonally as the relative position of environmental temperatures to TPC optimum temperature and lethal thermal limits varies. Alternatively, variation in TPCs over seasonal timescales may act as a buffer against negative effects of heatwaves if optimum temperatures track environmental temperatures, preventing environmental temperatures from exceeding thermal optima. Differences in the magnitude of seasonal variation in TPCs may therefore play a key role in shaping patterns in relative vulnerability of different taxa within a community.
+Another important consequence of short generation times, the response of these key groups to heatwaves may vary over seasonal timescales, reflecting either acclimatization or adaptation of thermal performance curves to different seasonal conditions [@sasaki2020] (Adaptive tracking paper). The presence or absence of seasonal variation in thermal performance curves will play an important role in determining the effects of heatwaves on a population (Figure 1). Much of the past work on the effects of heatwaves assumes performance curves are fixed (i.e. - there is no seasonal variation in TPCs). In this case, the effect of heatwaves will vary seasonally as the relative position of environmental temperatures to TPC optimum temperature and lethal thermal limits varies. Alternatively, variation in TPCs over seasonal timescales may act as a buffer against negative effects of heatwaves if optimum temperatures track environmental temperatures, preventing environmental temperatures from exceeding thermal optima. Differences in the magnitude of seasonal variation in TPCs may therefore play a key role in shaping patterns in relative vulnerability of different taxa within a community.
 
 ![Caption](../Output/Figures/afdesigner/Concept_schem.png)
 
