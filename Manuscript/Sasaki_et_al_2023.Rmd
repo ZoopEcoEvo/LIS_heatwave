@@ -24,13 +24,17 @@ author:
     location: Groton, CT 06340
 abstract: "The increasing frequency and intensity of heatwaves may represent a significant challenge for organisms in a warming ocean. The direct impacts of heatwaves on populations depend on the relative position of environmental temperatures to the thermal performance curve optima. The effects of heatwaves may therefore vary seasonally along the annual temperature cycle. However, this seasonal variation in the effects of heatwaves may be dampened by corresponding variation in thermal performance curves. In organisms with relatively short generation times, these changes may be driven by phenotypic plasticity as well as genetic differentiation. We investigate the effects of seasonal timing and duration on the impacts of heatwaves in the ecologically important copepod *Acartia tonsa*. We show that thermal performance curves are seasonally variable in the field, and that this variation buffers against negative effects of simulated heatwaves. Further, the offspring of individuals that experienced the simulated heatwaves were raised in the laboratory to examine trans-generational effects of heatwaves on body size and reproductive output. The lack of a clear pattern in the trans-generational effects may indicate that seasonal variation in thermal performance curves also buffers against indirect effects of heat waves by reducing the effects of parental stress on the offspring. Our results show that seasonal variation in thermal performance curves has the potential to limit the adverse effects of heatwaves on populations of short-lived organisms."
 keywords: "Heatwave, Climate Change, Copepod, Transgenerational Plasticity, Seasonal Variation, Thermal Performance"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
-thanks: "**Corresponding author**: matthew.sasaki@uconn.edu. **Project repo**: https://github.com/ZoopEcoEvo/LIS_heatwave (This preprint is current as of `r format(Sys.time(), '%B %d, %Y')`)"
+contact: "**Correspondance**: matthew.sasaki@uconn.edu" 
+current: "This preprint is current as of `r format(Sys.time(), '%B %d, %Y')`"
+repo: "**Code**: https://github.com/ZoopEcoEvo/LIS_heatwave"
 bibliography: references.bib 
 biblio-style: bib-style 
 geometry: margin=1in 
 fontsize: 10pt
 header-includes: 
+  \usepackage{caption}    
+  \captionsetup[figure]{font=small, margin=20pt, justification=centering}
+  \captionsetup[table]{font=small, margin=20pt, justification=centering}
   \usepackage{float} \floatplacement{figure}{H} 
   \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 ---
