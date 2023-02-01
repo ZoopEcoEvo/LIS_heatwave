@@ -96,7 +96,7 @@ knitr::kable(exp_design,
              caption = "Details for the simulated heatwave collections. The date and water temperature at the time *A. tonsa* individuals were collected from the field is provided for each group, along with the temperatures used for the control and heatwave exposures.")
 ```
 
-## Transgenerational Experiments
+## Transgenerational Effects
 
 In addition to the individuals maintained in petri dishes to measure direct effects of heatwaves, several hundred adult copepods were also placed into each of eight 4L buckets of filtered seawater and provided with food ad libitum (four each, maintained at control and heatwave temperatures). Water in each bucket was kept oxygenated using a small aquarium pump. Eggs were collected from each bucket following the same schedule as the direct effect experiments - eggs were collected on Day 3 and Day 7 for the short and long heatwave exposures, respectively. Eggs were discarded on Day 5 to ensure all individuals reflected the correct exposure periods. These eggs were then split into three groups which developed at one of three different temperatures (12, 17, or 22 degrees C). After these individuals matured, body size and the three reproductive traits (egg production, hatching success, and production) were measured at the temperature individuals developed at. Within developmental temperatures, differences between the Heatwave and Control treatment groups should reflect the indirect effects of heatwaves: these individuals represent eggs produced by parents experiencing the heatwave conditions, but that developed at the same temperatures as the Control individuals.
 
