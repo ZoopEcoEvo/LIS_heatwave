@@ -13,12 +13,14 @@ adverse effects of heatwaves
 comb_epr_plot = comb_preds %>% 
   filter(metric == "EPR") %>% 
   ggplot() +
-  geom_point(aes(temp, rate, colour = curve_id), filter(comb_d, metric == "EPR"), size = 1.5, alpha = 0.6, 
+  geom_point(aes(temp, rate, colour = curve_id), 
+             filter(comb_d, metric == "EPR"), 
+             size = 1.5, alpha = 0.6, 
              position = position_jitter(width = 0.5, height = 0)) +
-  geom_ribbon(aes(temp, ymin = conf_lower, ymax = conf_upper, group = curve_id), filter(comb_boot_conf_preds, metric == "EPR"), fill = 'grey60', alpha = 0.3) +
+  geom_ribbon(aes(temp, ymin = conf_lower, ymax = conf_upper, group = curve_id), 
+              filter(comb_boot_conf_preds, metric == "EPR"), 
+              fill = 'grey60', alpha = 0.3) +
   geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
-  #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
-  #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
   labs(x = "Temperature (degrees C)", 
        y = "Egg Production Rate \n(eggs/female/day)",
@@ -31,7 +33,7 @@ comb_hs_plot = comb_preds %>%
   geom_point(aes(temp, rate, colour = curve_id), filter(comb_d, metric == "HF"), size = 1.5, alpha = 0.6, 
              position = position_jitter(width = 0.5, height = 0)) +
   geom_ribbon(aes(temp, ymin = conf_lower, ymax = conf_upper, group = curve_id), filter(comb_boot_conf_preds, metric == "HF"), fill = 'grey60', alpha = 0.3) +
-  geom_line(aes(temp, .fitted, col = curve_id), size = 2) +
+  geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
@@ -46,7 +48,7 @@ comb_rf_plot = comb_preds %>%
   geom_point(aes(temp, rate, colour = curve_id), filter(comb_d, metric == "RF"), size = 1.5, alpha = 0.6, 
              position = position_jitter(width = 0.5, height = 0)) +
   geom_ribbon(aes(temp, ymin = conf_lower, ymax = conf_upper, group = curve_id), filter(comb_boot_conf_preds, metric == "RF"), fill = 'grey60', alpha = 0.3) +
-  geom_line(aes(temp, .fitted, col = curve_id), size = 2) +
+  geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
@@ -61,7 +63,7 @@ comb_tsc = ggplot(comb_surv, aes(x=Temp, y=Surv, colour=Month)) +
   ylab("Survivorship \n(proportion survived)")+
   labs(colour = "Month") + 
   geom_hline(yintercept = 0.5, linetype = "dashed") +
-  geom_smooth(method = "glm", method.args = list(family = "binomial"), se=T, size = 2) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), se=T, linewidth = 2) +
   scale_y_continuous(breaks = c(0,1)) + 
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
@@ -83,20 +85,20 @@ combined_opt_coll = comb_params %>%
               method = "lm", colour = "grey50") + 
   geom_point(size = 3, stroke = 1) + 
   scale_shape_manual(values = c(16,21)) + 
-  ylab("Optimum (degrees C)") + 
-  xlab("Collection Temperature (degrees c)") + 
+  ylab("Optimum (°C)") + 
+  xlab("Collection Temperature (°C)") + 
   labs(colour = "Month") + 
   theme_matt(base_size = 12)
 
 combined_opt_diff = comb_params %>% 
   filter(metric == "RF" & term == "topt") %>% 
   ggplot(aes(x = growth_temp, y = margin, shape = species)) +
-  geom_hline(yintercept = 0, size =1, linetype = "dashed") +
+  geom_hline(yintercept = 0, linewidth =1, linetype = "dashed") +
   geom_smooth(data = filter(comb_params, metric == "RF" & term == "topt" & curve_id != "November_2"),
               method = "lm", colour = "grey50") + 
   geom_point(size = 3, stroke = 1) + 
-  ylab("Margin (degrees C)") + 
-  xlab("Collection Temperature (degrees c)") + 
+  ylab("Margin (°C)") + 
+  xlab("Collection Temperature (°C)") + 
   scale_shape_manual(values = c(16,21)) + 
   theme_matt(base_size = 12) 
 
@@ -104,16 +106,16 @@ combined_ld_coll = ggplot(combined_tolerance, aes(x = Coll_temp, y = LD50, shape
   geom_smooth(method = "lm", colour = "grey50") + 
   geom_point(size = 3, stroke = 1) + 
   scale_shape_manual(values = c(16,21)) + 
-  ylab("Thermal Tolerance (degrees C)") + 
-  xlab("Collection Temperature (degrees c)") + 
+  ylab("Thermal Tolerance (°C)") + 
+  xlab("Collection Temperature (°C)") + 
   theme_matt(base_size = 12)
 
 combined_ld_diff = ggplot(combined_tolerance, aes(x = Coll_temp, y = margin, shape = species)) +
   geom_smooth(method = "lm", colour = "grey50") + 
   geom_point(size = 3, stroke = 1) + 
   scale_shape_manual(values = c(16,21)) + 
-  ylab("Warming Tolerance (degrees C)") + 
-  xlab("Collection Temperature (degrees c)") + 
+  ylab("Warming Tolerance (°C)") + 
+  xlab("Collection Temperature (°C)") + 
   theme_matt(base_size = 12)
 
 ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_diff, ncol = 2, nrow = 2, common.legend = T,
@@ -158,8 +160,8 @@ F0_grid = F0_rf_summary %>%
   mutate(month = fct_relevel(month, "June", "August", "November")) %>% 
   ggplot(aes(x = duration, y = difference, colour = trait, shape = duration)) + 
   facet_grid(. ~ month) + 
-  geom_hline(yintercept = 0, colour = "black", size = 0.3) +
-  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1.3) + 
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.3) +
+  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, linewidth = 1.3) + 
   geom_point(size = 5, fill = "white") + 
   scale_colour_manual(values = c("body size" = "grey75", "production" = "black")) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
@@ -189,9 +191,9 @@ F1_summary = bind_rows(F1_rf_effect_size, F1_bs_effect_size) %>%
 F1_summary$order_number = factor(F1_summary$order_number, levels = c(1,2,3,4))
 F1_grid = ggplot(F1_summary, aes(x = order_number, y = difference, colour = trait, shape = duration, group = trait)) +
   facet_grid(off_temp ~ month, ) + 
-  geom_hline(yintercept = 0, colour = "black", size = 0.3) +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.3) +
   geom_line() + 
-  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1) + 
+  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, linewidth = 1) + 
   geom_point(size = 3, fill = "white") + 
   scale_colour_manual(values = c("body size" = "grey75", "production" = "black")) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
@@ -259,7 +261,7 @@ comb_params %>%
   facet_grid(metric~., scales = 'free_y') + 
   geom_hline(yintercept = 0) +
   geom_smooth(data = filter(comb_params, term == "topt" & curve_id != "November_2"),
-              method = "lm", se = F, size = 1, colour = "black") + 
+              method = "lm", se = F, linewidth = 1, colour = "black") + 
   geom_point(size = 4) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
   labs(x = "Collection Temperature",
@@ -331,8 +333,8 @@ F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, grou
   facet_grid(. ~ month) + 
   geom_line(position = position_dodge(width = 0.7),
             linewidth = 1) + 
-  geom_hline(yintercept = 0, colour = "black", size = 0.3) +
-  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1, 
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.3) +
+  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, linewidth = 1, 
                 position = position_dodge(width = 0.7)) + 
   geom_point(size = 4, fill = "white", position = position_dodge(width = 0.7)) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
@@ -352,10 +354,10 @@ F0_grid = ggplot(F0_data, aes(x = duration, y = difference, colour = trait, grou
 #Following three rows - F1 (transgeneration / indirect effects)
 F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, group = trait)) + 
   facet_grid(off_temp ~ month, ) + 
-  geom_hline(yintercept = 0, colour = "black", size = 0.3) +
+  geom_hline(yintercept = 0, colour = "black", linewidth = 0.3) +
   geom_line(position = position_dodge(width = 0.5),
             linewidth = 1) + 
-  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, size = 1,
+  geom_errorbar(aes(ymin = bca_ci_low, ymax = bca_ci_high), width = 0, linewidth = 1,
                 position = position_dodge(width = 0.5)) + 
   geom_point(size = 3, fill = "white", position = position_dodge(width = 0.5)) + 
   scale_shape_manual(values = c("long" = 16, "short" = 21)) + 
@@ -378,6 +380,22 @@ ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.35,1), common.lege
 ```
 
 <img src="../Figures/markdown/effect-size-grid-1.png" style="display: block; margin: auto auto auto 0;" />
+
+``` r
+effect_corr = F1_summary %>% 
+  select(trait, difference, month, duration, off_temp) %>%  
+  pivot_wider(id_cols = c(month, duration, off_temp),
+              names_from = trait, 
+              values_from = difference)
+
+ggplot(effect_corr, aes(x = `body size`, y = production)) + 
+  geom_point() + 
+  labs(x = "Body Size Effect",
+       y = "Production Effect") + 
+  theme_matt(base_size = 18)
+```
+
+<img src="../Figures/markdown/unnamed-chunk-2-1.png" style="display: block; margin: auto auto auto 0;" />
 
 ``` r
 F0_fecundity_plot
