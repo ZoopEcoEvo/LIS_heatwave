@@ -22,7 +22,7 @@ comb_epr_plot = comb_preds %>%
               fill = 'grey60', alpha = 0.3) +
   geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
   scale_colour_manual(values = comb_colors) + 
-  labs(x = "Temperature (degrees C)", 
+  labs(x = "Temperature (°C)", 
        y = "Egg Production Rate \n(eggs/female/day)",
        colour = "Month") + 
   theme_matt(base_size = 12)
@@ -37,7 +37,7 @@ comb_hs_plot = comb_preds %>%
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
-  labs(x = "Temperature (degrees C)", 
+  labs(x = "Temperature (°C)", 
        y = "Hatching Success \n(%)",
        colour = "Month") + 
   theme_matt(base_size = 12)
@@ -52,7 +52,7 @@ comb_rf_plot = comb_preds %>%
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
-  labs(x = "Temperature (degrees C)", 
+  labs(x = "Temperature (°C)", 
        y = "Production \n(offspring/female/day)",
        colour = "Month") + 
   theme_matt(base_size = 12)
@@ -245,7 +245,7 @@ ggplot(comb_params, aes(x = growth_temp, y = estimate, colour = species)) +
   geom_point(size = 4) +
   geom_linerange(aes(ymin = conf_lower, ymax = conf_upper)) +
   scale_colour_manual(values = c("royalblue1", "indianred2")) + 
-  labs(x = "Collection Temperature (degrees C)",
+  labs(x = "Collection Temperature (°C)",
        y = "Parameter Estimate",
        colour = "Species") + 
   theme_bw(base_size = 12) +
@@ -376,7 +376,7 @@ F1_grid = ggplot(F1_data, aes(x = duration, y = difference, colour = trait, grou
         axis.text = element_text(colour = "black"),
         axis.text.x = element_text(angle = -45, hjust = 0, vjust = 0.5))
 
-ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.35,1), common.legend = T, legend = "right")
+ggarrange(F0_grid, F1_grid, nrow = 2, ncol = 1, heights = c(0.35,1), common.legend = T, legend = "right", labels = "AUTO")
 ```
 
 <img src="../Figures/markdown/effect-size-grid-1.png" style="display: block; margin: auto auto auto 0;" />
@@ -389,19 +389,18 @@ effect_corr = F1_summary %>%
               values_from = difference)
 
 ggplot(effect_corr, aes(x = `body size`, y = production)) + 
-  geom_point() + 
+  geom_hline(yintercept = 0) + 
+  geom_vline(xintercept = 0) + 
+  geom_point(size = 3) + 
+  geom_smooth(method = "lm", se = F,
+              colour = "grey60",
+              size = 1) + 
   labs(x = "Body Size Effect",
        y = "Production Effect") + 
-  theme_matt(base_size = 18)
+  theme_matt()
 ```
 
-<img src="../Figures/markdown/unnamed-chunk-2-1.png" style="display: block; margin: auto auto auto 0;" />
-
-``` r
-F0_fecundity_plot
-```
-
-<img src="../Figures/markdown/F0-production-1.png" style="display: block; margin: auto auto auto 0;" />
+<img src="../Figures/markdown/production-size-change-1.png" style="display: block; margin: auto auto auto 0;" />
 
 ``` r
 #Effect of heatwave duration WITHIN treatment
@@ -505,105 +504,49 @@ ggplot(sig_changes, aes(x = duration, y = difference, colour = month, group = ID
 <img src="../Figures/markdown/sig-F1-duration-effects-1.png" style="display: block; margin: auto auto auto 0;" />
 
 ``` r
-rdata = file_list[str_detect(file_list, pattern = ".RData")]
-f1_data = rdata[str_detect(rdata, pattern = "F0_", negate = T)] %>% 
-  str_split_fixed(pattern = ".RData", n = 2)
-f1_data = f1_data[,1]
-
-plot_names = c()
-for(i in 1:length(f1_data)){
-  plot_name = paste(f1_data[i], "_plot", sep = "")
-  plot_names = c(plot_names, plot_name)
-  metric = str_split_fixed(plot_name, pattern = "_", n = 4)[,2]
-  
-  if(metric == "total"){
-    label = "Egg Production (per female)"
-  }
-  
-  if(metric == "rf"){
-    label = "Production (per female)"
-  }
-  
-  if(metric == "hs"){
-    label = "Hatching Success (%)"
-  }
-  
-  if(metric == "bs"){
-    label = "Body Size (mm)"
-  }
-  
-  assign(plot_name,
-         plot(get(f1_data[i]), 
-              effsize.markersize = 2,
-              axes.title.fontsize = 9,
-              tick.fontsize = 6,
-              swarmplot.params = param_list,
-              rawplot.ylabel = label,
-              theme = ggpubr::theme_pubr()))
-}
-
-bs_plots = plot_names[str_detect(plot_names, pattern = "_bs_")]
-rf_plots = plot_names[str_detect(plot_names, pattern = "_rf_")]
-total_plots = plot_names[str_detect(plot_names, pattern = "_total_")]
-hs_plots = plot_names[str_detect(plot_names, pattern = "_hs_")]
-```
-
-``` r
-ggarrange(June_bs_short_plot, June_bs_long_plot, 
-          August_bs_short_plot, August_bs_long_plot,
-          November_bs_short_plot, November_bs_long_plot,
-          ncol = 2, nrow = 3,
-          labels = "AUTO",
-          vjust = -0.2)
-```
-
-<img src="../Figures/markdown/F1-body-size-eff-plots-1.png" style="display: block; margin: auto auto auto 0;" />
-
-``` r
-ggarrange(June_total_short_plot, June_total_long_plot, 
-          August_total_short_plot, August_total_long_plot,
-          November_total_short_plot, November_total_long_plot,
-          ncol = 2, nrow = 3,
-          labels = "AUTO",
-          vjust = -0.2)
-```
-
-<img src="../Figures/markdown/F1-total-epr-eff-plots-1.png" style="display: block; margin: auto auto auto 0;" />
-
-``` r
-ggarrange(June_hs_short_plot, June_hs_long_plot, 
-          August_hs_short_plot, August_hs_long_plot,
-          November_hs_short_plot, November_hs_long_plot,
-          ncol = 2, nrow = 3,
-          labels = "AUTO",
-          vjust = -0.2)
-```
-
-<img src="../Figures/markdown/F1-hatching-success-eff-plots-1.png" style="display: block; margin: auto auto auto 0;" />
-
-``` r
-ggarrange(June_rf_short_plot, June_rf_long_plot, 
-          August_rf_short_plot, August_rf_long_plot,
-          November_rf_short_plot, November_rf_long_plot,
-          ncol = 2, nrow = 3,
-          labels = "AUTO",
-          vjust = -0.2)
-```
-
-<img src="../Figures/markdown/F1-production-eff-plots-1.png" style="display: block; margin: auto auto auto 0;" />
-
-``` r
 seasonal_cols = c("June" = "#E69F00", "August" = "#D55E00", "November" = "#0072B2")
 F1_fbs$ID = paste(F1_fbs$Month, F1_fbs$Parental_treatment, F1_fbs$Day, sep = "_")
 F1_fbs$Month = fct_relevel(F1_fbs$Month, "June", "August", "November")
 
-ggplot(F1_fbs, aes(x = Offspring_temp, y = Size, colour = Day, group = ID)) + 
+day_cols = c("1_to_3" = "sienna1", "5_to_7" = "sienna")
+
+size_temp1 = ggplot(F1_fbs, aes(x = Offspring_temp, y = Size, colour = Day, group = ID)) + 
   facet_grid(Month~Parental_treatment) + 
   geom_jitter(width = 0.5, size = 1.6, alpha = 0.4) +
   geom_smooth(method = "lm", size = 1.4, alpha = 0.2) + 
+  labs(x = "Offspring Temperature (°C)",
+       y = "Size (mm)") + 
   scale_x_continuous(breaks = c(12,17,22)) + 
-  theme_bw() + theme(legend.position = "right",
+  scale_colour_manual(values = day_cols) + 
+  theme_bw(base_size = 15) + theme(legend.position = "bottom",
                      panel.grid = element_blank())
+
+f1_size.model = lm(data = F1_fbs, Size ~ Offspring_temp * Parental_treatment * Month * Day)
+
+#car::Anova(f1_size.model, type = "III")
+size_temp2 = emmeans::emtrends(f1_size.model, c("Month", "Day", "Parental_treatment"), var = "Offspring_temp") %>% 
+  as.data.frame() %>% 
+  ggplot(aes(x = Parental_treatment, y = Offspring_temp.trend, 
+             colour = Day, shape = Day, group = Day)) + 
+  facet_wrap(Month~.) + 
+  geom_hline(yintercept = 0) + 
+  geom_point(size = 3,
+             position = position_dodge(width = 0.5)) + 
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
+                size = 1, width = 0.3,
+                position = position_dodge(width = 0.5)) + 
+  geom_line(linewidth = 1.5,
+                position = position_dodge(width = 0.5)) + 
+  scale_colour_manual(values = day_cols) + 
+  labs(x = "Parental Treatment",  
+       y = "Size Slope (mm / °C)") + 
+  guides(colour = "none") + 
+  theme_matt(base_size = 15) + 
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 360-45,
+                                   hjust = 0, vjust = 0.5))
+
+ggarrange(size_temp1, size_temp2, labels = "AUTO", common.legend = T, legend = "bottom")
 ```
 
 <img src="../Figures/markdown/F1-body-size-vs-temperature-1.png" style="display: block; margin: auto auto auto 0;" />

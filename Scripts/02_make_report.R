@@ -4,12 +4,11 @@ library(readxl)
 library(rTPC)
 library(nls.multstart)
 library(broom)
+library(boot)
 library(MASS)
 library(minpack.lm)
 library(dabestr)
-library(boot)
 library(car)
-library(ggplot2)
 library(ggpubr)
 library(ggrepel)
 library(tidyverse)
@@ -75,6 +74,9 @@ if(generate_figures == T){
 
 #### Prepare Manuscript ####
 if(knit_manuscript == T){
+  comb_params = read.csv("Output/Data/comb_params.csv")
+  combined_tolerance = read.csv("Output/Data/combined_tolerance.csv")
+  
   render(input = "Manuscript/Sasaki_et_al_2023.Rmd", #Input the path to your .Rmd file here
          output_file = paste("dev_draft_", Sys.Date(), sep = ""), #Name your file here; as it is, this line will create drafts specified with the date
          output_format = "all",
