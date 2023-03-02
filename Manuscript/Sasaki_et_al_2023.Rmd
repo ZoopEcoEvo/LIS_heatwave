@@ -109,7 +109,7 @@ As for the F0 generation, we used effect size estimates (Hedge's g) to examine h
 There was abundant variation in TPCs for egg production, hatching success, and production for copepods collected throughout the year. *Acartia hudsonica* EPR TPCs tended to have lower optima and were less variable than *A. tonsa* EPR TPCs (Figure 2). Within *A. tonsa*, EPR optimum temperatures tended to be higher in warmer months (Figure 3). Hatching success TPCs for *A. hudsonica* were also less variable than those of *A. tonsa*. TPCs for hatching success were also considerably wider in *A. tonsa* than in *A. hudsonica*. Hatching success was higher for *A. tonsa* in warmer months than cooler months, regardless of incubation temperature. This is especially evident for the second November collection of *A. tonsa*, which exhibited very low hatching success at all but the highest temperatures used in the assays. When combined, the variation in EPR and HS TPCs yielded production curves that were highly variable in *Acartia tonsa*. Collections from warmer months generally had slightly higher optimum temperatures as well as higher maximum production values, although the narrow hatching success TPC of the second November collection produces a production TPC strongly skewed towards warmer temperatures, going against this trend.
 
 ```{r, figure2, echo = F, out.width = "400px"}
-#| fig.cap = "CAPTION HERE"
+#| fig.cap = "Thermal performance curves for each of the collections, each shown in a different color. Panels A-C show points for each individual measurement along with the estimated Gaussian regression line. Panel D shows individual survivorship measurements following a 24-hour acute heat stress. Survivorship curves are estimated as logistic regressions. Note that the x-axis ranges differ between the two sets of curves."
 knitr::include_graphics("../Output/Figures/markdown/figure-2-combined-tpcs-1.png")
 ```
 
@@ -141,7 +141,7 @@ kable(car::Anova(wt.model, type = "III"),
 ```
 
 ```{r, figure3, echo = F, out.width = "400px"}
-#| fig.cap = "CAPTION HERE."
+#| fig.cap = "Relationships between (A) thermal optimum, estimated from the production thermal performance curves, and collection temperature; (B) the thermal safety margin (calculated as the difference between thermal optimum and collection temperature) and collection temperature; (C) thermal tolerance, measured as LD50, and collection temperature; and (D) warming tolerance (calculated as the difference between thermal tolerance and collection temperature) and collection temperature. The two Acartiid species are shown with different symbols. Linear regressions with confidence intervals are included."
 
 knitr::include_graphics("../Output/Figures/markdown/figure-3-curve-parameters-1.png")
 ```
@@ -155,7 +155,7 @@ Results were highly variable across collection and duration, but effect sizes te
 We also examined the effect of warming duration (the comparison between long and short events within treatment) on the three traits. Here, we observed similar effects of duration on production in both control and warming groups, in all three months (Supp. Fig. 3); in all cases there were slight decreases in production over time for the June and August collections and an increase in production for the November collection. The similarities in the effect of duration between the control and heatwave treatments suggests that seasonal variation in the effects of warming may be more consequential than differences between short and long events (at least at the daily to weekly timescales examined here).
 
 ```{r, figure4, echo = F, out.width = "400px"}
-#| fig.cap = "CAPTION HERE."
+#| fig.cap = "The effects of simulated heatwaves on production and body size. A) The direct effects of elevated temperature (field-caught F0 individuals), estimated as the effect size (Hedge's g) calculated for the comparison between production by copepods exposed to heatwave and control treatments. A negative effect size indicates exposure to elevated temperature decreased production. The two different durations, short and long events, are shown with different symbols. B) The indirect, transgenerational effects of parental exposure to elevated temperature were also estimated as an effect size using Hedge's g. Each panel shows data for one month and one developmental temperature. The different durations are again represented with different symbols, while offspring body size and production are shown in different colors. Here, a negative effect size indicates that parental exposure to elevated temperature decreased production or body size relative to individuals whos parents did not experience elevated temperatures."
 
 
 knitr::include_graphics("../Output/Figures/afdesigner/figure-4-sim-heatwave-effects.jpg")
@@ -253,9 +253,7 @@ ggarrange(tsm_coefs, wt_coefs, labels = "AUTO", widths = c(0.5, 0.5))
 \newpage
 
 ```{r, supp-fig-2, echo = F, out.width = "350px", fig.align='center'}
-#| fig.cap = "CAPTION HERE" 
-
-# These plots follow best practices for the visualization of differences between groups. The top half of each figure shows the underlying data points in a swarm plot. To the right of each each swarm is the mean and standard deviation of the group, represented using a gapped bar (gap = mean value). Below the raw data, the effect size and 95% confidence intervals are shown, which were obtained using non-parametric bootstrap resampling. Confidence intervals that do not cross the 0 effect size line indicate significant differences between groups.
+#| fig.cap = "The effects of simulated heatwaves on all four measured traits: body size, production, hatching success, and egg production rate. A) The direct effects of elevated temperature (field-caught F0 individuals), estimated as the effect size (Hedge's g) calculated for the trait comparisons between copepods exposed to heatwave and control treatments. A negative effect size indicates exposure to elevated temperature led to trait decreases. B) The indirect, transgenerational effects of parental exposure to elevated temperature were also estimated as an effect size using Hedge's g. Each panel shows data for one month and one developmental temperature. Here, a negative effect size indicates that parental exposure to elevated temperature decreased production or body size relative to individuals whos parents did not experience elevated temperatures. In all cases, each of the four traits are shown in different colors." 
 
 knitr::include_graphics("../Output/Figures/markdown/effect-size-grid-1.png")
 ```
@@ -263,7 +261,7 @@ knitr::include_graphics("../Output/Figures/markdown/effect-size-grid-1.png")
 \newpage
 
 ```{r, supp-fig-3, echo = F, out.width = "300px", fig.align='center'}
-#| fig.cap = "CAPTION" 
+#| fig.cap = "Effect size comparisons between short and long duration events for each collection, along with 95% confidence intervals. The different treatments, control and heatwave, are shown with different colors. A negative effect size indicates that the observed production value within a treatment decreased over time." 
 
 knitr::include_graphics("../Output/Figures/markdown/F0-duration-effects-1.png")
 ```
@@ -271,7 +269,7 @@ knitr::include_graphics("../Output/Figures/markdown/F0-duration-effects-1.png")
 \newpage
 
 ```{r, supp-fig-4, echo = F, out.width = "300px", fig.align='center'}
-#| fig.cap = "CAPTION"
+#| fig.cap = "The relationship between the effects of parental exposure to warming on offspring body size and production. No significant relationship is observed."
 
 knitr::include_graphics("../Output/Figures/markdown/production-size-change-1.png")
 
@@ -281,7 +279,7 @@ knitr::include_graphics("../Output/Figures/markdown/production-size-change-1.png
 \newpage
 
 ```{r, supp-fig-5, echo = F, out.width = "400px", fig.align='center'}
-#| fig.cap = "CAPTION"
+#| fig.cap = "A) The relationship between offspring developmental temperature and adult body size. Each panel includes individual measurements for one treatment within a collection. Data for offspring of parents exposed to different duration events are shown in different colors. B) The slopes of body size vs. temperature shown in the panel A. A negative slope indicates that body size decreases with increasing temperature. The different durations are again shown with different colors."
 
 
 knitr::include_graphics("../Output/Figures/markdown/F1-body-size-vs-temperature-1.png")
