@@ -489,7 +489,7 @@ FUNCTION {format.editors}
 }
 FUNCTION {format.note}
 {
- note empty$
+ #1
     { "" }
     { note #1 #1 substring$
       duplicate$ "{" =
