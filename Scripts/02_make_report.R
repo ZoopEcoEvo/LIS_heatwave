@@ -68,13 +68,23 @@ if(generate_figures == T){
   
   render(input = "Output/Reports/project_figures.Rmd", #Input the path to your .Rmd file here
          output_file = "project_figures", #Name your figure summary file here; as it is, report name includes the date
-         output_format = "all") # NOTE: This will render the document once per output specified in the YAML
+         output_format = "github_document") # NOTE: This will render the document once per output specified in the YAML
                                 # As a result, this can take a long time, depending on the complexity of the .Rmd
 }
 
 #### Prepare Manuscript ####
 if(knit_manuscript == T){
   comb_params = read.csv("Output/Data/comb_params.csv")
+  
+  par_table = comb_params %>%  
+    mutate(estimate = round(estimate, digits = 2),
+           conf_lower = round(conf_lower, digits = 2),
+           conf_upper = round(conf_upper, digits = 2),
+           tab_entry = paste(estimate, " [", conf_lower, " - ", conf_upper, "]", sep = "")) %>%  
+    pivot_wider(id_cols = c(curve_id, species),names_from = c(metric, term), values_from = tab_entry)
+  
+  #write.csv(par_table, file = "Output/Data/par_table.csv")
+  
   combined_tolerance = read.csv("Output/Data/combined_tolerance.csv")
   
   render(input = "Manuscript/Sasaki_et_al_2023.Rmd", #Input the path to your .Rmd file here

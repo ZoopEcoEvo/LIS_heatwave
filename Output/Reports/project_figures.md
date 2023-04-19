@@ -22,8 +22,8 @@ comb_epr_plot = comb_preds %>%
               fill = 'grey60', alpha = 0.3) +
   geom_line(aes(temp, .fitted, col = curve_id), linewidth = 2) +
   scale_colour_manual(values = comb_colors) + 
-  labs(x = "Temperature (°C)", 
-       y = "Egg Production Rate \n(eggs/female/day)",
+  labs(x = "", 
+       y = "Egg Production \n(eggs/female/day)",
        colour = "Month") + 
   theme_matt(base_size = 12)
 
@@ -37,7 +37,7 @@ comb_hs_plot = comb_preds %>%
   #scale_color_brewer(type = "div", palette = 5, direction = -1) + 
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
-  labs(x = "Temperature (°C)", 
+  labs(x = "", 
        y = "Hatching Success \n(%)",
        colour = "Month") + 
   theme_matt(base_size = 12)
@@ -53,13 +53,13 @@ comb_rf_plot = comb_preds %>%
   #scale_color_viridis_d(option = "mako") + 
   scale_colour_manual(values = comb_colors) + 
   labs(x = "Temperature (°C)", 
-       y = "Production \n(offspring/female/day)",
+       y = "Offspring Production \n(offspring/female/day)",
        colour = "Month") + 
   theme_matt(base_size = 12)
 
 comb_tsc = ggplot(comb_surv, aes(x=Temp, y=Surv, colour=Month)) + 
   geom_point(size=1.5, position=position_jitter(width=0.1, height=0.03)) +
-  xlab("Stress Temperature")+
+  xlab("Temperature (°C)")+
   ylab("Survivorship \n(proportion survived)")+
   labs(colour = "Month") + 
   geom_hline(yintercept = 0.5, linetype = "dashed") +
@@ -72,10 +72,17 @@ comb_tsc = ggplot(comb_surv, aes(x=Temp, y=Surv, colour=Month)) +
 
 ggarrange(comb_epr_plot, comb_hs_plot, comb_rf_plot, comb_tsc, 
           ncol = 2, nrow = 2,
-          common.legend = T, legend = "bottom", labels = "AUTO")
+          common.legend = T, legend = "bottom", 
+          labels = "AUTO", vjust = 1)
 ```
 
 <img src="../Figures/markdown/figure-2-combined-tpcs-1.png" style="display: block; margin: auto auto auto 0;" />
+
+``` r
+
+# ggarrange(comb_epr_plot, comb_hs_plot, comb_rf_plot, comb_tsc, nrow = 1,
+#           common.legend = T, legend = "bottom")
+```
 
 ``` r
 combined_opt_coll = comb_params %>% 
