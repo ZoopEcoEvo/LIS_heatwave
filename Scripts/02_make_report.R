@@ -77,11 +77,18 @@ if(knit_manuscript == T){
   comb_params = read.csv("Output/Data/comb_params.csv")
   
   par_table = comb_params %>%  
-    mutate(estimate = round(estimate, digits = 2),
-           conf_lower = round(conf_lower, digits = 2),
-           conf_upper = round(conf_upper, digits = 2),
+    filter(term != "a") %>% 
+    mutate(estimate = round(estimate, digits = 1),
+           conf_lower = round(conf_lower, digits = 1),
+           conf_upper = round(conf_upper, digits = 1),
            tab_entry = paste(estimate, " [", conf_lower, " - ", conf_upper, "]", sep = "")) %>%  
-    pivot_wider(id_cols = c(curve_id, species),names_from = c(metric, term), values_from = tab_entry)
+    pivot_wider(id_cols = c(curve_id, species),names_from = c(metric, term), values_from = estimate) %>% 
+    mutate(species = if_else(species == "tonsa", "*A. tonsa*", "*A. hudsonica*")) %>% 
+    select(-EPR_rmax, -HF_rmax)
+  
+  colnames(par_table) = c("Collection", "Species", "EPR Topt", 
+                          "HS Topt",
+                          "Prod. Rmax", "Prod. Topt")
   
   #write.csv(par_table, file = "Output/Data/par_table.csv")
   
