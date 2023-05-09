@@ -18,7 +18,7 @@ author:
     affiliation: Department of Marine Sciences, University of Connecticut, USA
   - name: Hans G. Dam
     affiliation: Department of Marine Sciences, University of Connecticut, USA 
-abstract: "**Abstract** - The increasing frequency and intensity of heatwaves may represent a significant challenge for  predicting vulnerability of populations in a warming ocean. The direct impacts of heatwaves on populations depend on the relative position of environmental temperatures to the thermal performance curve optima. The effects of heatwaves may therefore change seasonally over the annual temperature cycle. However, these seasonal changes in the effects of heatwaves may be dampened by corresponding variation in thermal performance curves which, in organisms with relatively short generation times, may be driven by phenotypic plasticity as well as genetic differentiation. Here we investigate the effects of seasonal timing and duration on the impacts of heatwaves in the ecologically important copepod congeners *Acartia tonsa* and *Acartia hudsonica*, and test the hypotheses that 1) seasonal variation in thermal performance curves will reduce overall population vulnerability to heatwaves, and 2) that seasonal variation in TPCs will prevent negative transgenerational effects of heatwave. We characterized seasonal variation in thermal performance curves for several fitness-related traits. These experiments uncovered strong seasonal variation in the thermal performance curves of *Acartia tonsa*, and indicate that this variation buffers against negative effects of simulated heatwaves. We also quantified both direct and trans-generational effects of different duration heatwaves on copepods collected at various times throughout the season using simulated heatwave experiments. There was no consistent pattern in the transgenerational effects of parental exposure to heatwaves, which may indicate that seasonal variation in thermal performance curves reduces the effects of parental stress on offspring performance. Our results show that seasonal variation in thermal performance curves will likely play an important role in limiting the adverse effects of heatwaves on populations."
+abstract: "**Abstract** - The increasing frequency and intensity of heatwaves may represent a significant challenge for predicting vulnerability of populations in a warming ocean. The direct impacts of heatwaves on populations depend on the relative position of environmental temperatures to the thermal performance curve optima. If thermal performance curves are static, the effects of heatwaves may therefore change seasonally over the annual temperature cycle. However, these seasonal changes in the effects of heatwaves may be dampened by corresponding variation in thermal performance curves which, in organisms with relatively short generation times, may be driven by phenotypic plasticity as well as genetic differentiation. Here we investigate the effects of seasonal timing and duration on the impacts of heatwaves in the ecologically important copepod congeners *Acartia tonsa* and *Acartia hudsonica*, and test the hypotheses that 1) seasonal variation in thermal performance curves will reduce overall population vulnerability to heatwaves, and 2) that seasonal variation in TPCs will prevent negative transgenerational effects of heatwave. We characterized seasonal variation in thermal performance curves for several fitness-related traits. These experiments uncovered strong seasonal variation in the thermal performance curves of *Acartia tonsa*, and indicate that this variation buffers against negative effects of simulated heatwaves. We also quantified both direct and trans-generational effects of different duration heatwaves on copepods collected at various times throughout the season using simulated heatwave experiments. There was no consistent pattern in the transgenerational effects of parental exposure to heatwaves, which may indicate that seasonal variation in thermal performance curves reduces the effects of parental stress on offspring performance. Our results show that seasonal variation in thermal performance curves will likely play an important role in limiting the adverse effects of heatwaves on populations."
 keywords: "Heatwave, Climate Change, Copepod, Transgenerational Plasticity, Seasonal Variation, Thermal Performance"
 contact: "**Correspondance**: matthew.sasaki@uconn.edu" 
 current: "This preprint is current as of `r format(Sys.time(), '%B %d, %Y')`"
@@ -35,6 +35,19 @@ header-includes:
   \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 ---
 
+```{r echo = F}
+if(knitr::is_latex_output()){
+  knitr::opts_chunk$set(
+  echo = FALSE,
+  fig.align = "center",
+  message = FALSE,
+  warning = FALSE,
+  collapse = T)
+}
+
+```
+
+
 # Introduction
 
 Heatwaves are increasing in frequency and intensity in aquatic ecosystems [@frolicher2018; @oliver2018; @tassone2022]. 
@@ -45,9 +58,9 @@ Shaped by resulting changes in metabolism, reproduction, competitive ability, an
 
 Characterizing the thermal sensitivity of planktonic taxa is crucial for predicting the effects of marine heatwaves on food webs and ecosystem functioning. 
 Thermal performance curves provide key insights into the direct effects of increased temperature on organisms and population dynamics [@deutsch2022; @arroyo2022; @hochachka2002; @angilletta2009]. 
-However, in taxa with short generation times, seasonal acclimatization and genetic differentiation can rapidly change thermal performance curves, modifying the effects of heatwaves [@sasaki2020; @rudman2022]. 
+However, in taxa with short generation times, seasonal acclimatization and genetic differentiation can rapidly change thermal performance curves to track environmental temperatures, modifying the effects of heatwaves [@sasaki2020; @rudman2022]. 
 Further, the effects of heatwaves on populations may also be propagated across generations by mechanisms like trans-generational plasticity and maternal effects, which can have important effects on offspring performance [@truong2022; @dinh2021; @minuti2022]. 
-These fine-scale temporal dynamics need to be accounted for when predicting the effects of heatwaves on populations. 
+These fine-scale temporal dynamics need to be accounted for when predicting the effects of heatwaves on populations of planktonic and other short-lived taxa.
 
 
 Vulnerability to adverse effects of heatwaves is often assumed to be largest during the warmest seasons when environmental temperatures are nearest to organismal thermal optima. 
@@ -55,14 +68,14 @@ This can be modified, however, by seasonal variation in thermal performance [@tr
 In planktonic taxa, this seasonal variation may be underlain by acclimatization within generations, transgenerational effects across generations, and seasonal genetic differentiation [@sasaki2020]. 
 Regardless of mechanism, this variation may play an important role in determining the effects of heatwaves on a population (Figure 1). 
 Much of the past work on the effects of heatwaves assumes performance curves are fixed (i.e. - there is no seasonal variation in TPCs). 
-In this case, the effect of heatwaves would be predicted to vary seasonally as the relative position of environmental temperatures to TPC optimum temperature and lethal thermal limits varies. 
+In this case, the effect of heatwaves would be predicted to change over the course of the season the relative position of environmental temperatures to TPC optimum temperature and lethal thermal limits varies. 
 Alternatively, variation in TPCs over seasonal timescales may act as a buffer against negative effects of heatwaves if optimum temperatures maintain a fixed position above environmental temperatures, limiting exposure to temperatures in excess of thermal optima. 
 Differences in the magnitude of seasonal variation in TPCs between taxa may therefore play a key role in shaping patterns in relative vulnerability of community members to heatwaves.
 
-![Schematic illustrating the effects of heatwaves on performance. A) Heatwaves may occur at various times throughout the year, resulting in acute increases in temperature against a seasonally-variable baseline temperature (shown here for an hypothetical location in the Northern Hemisphere). B) Static thermal performance curves result in seasonally-variable effects of heatwaves on performance. Heatwaves that occur when temperatures are low relative to the optimum would be expected to increase performance (a beneficial effect). Heatwaves that occur when temperatures are near or past the thermal optimum may decrease performance (a detrimental effect). C) Variable thermal performance curves reduce seasonal variation in the effects of heatwaves on performance, when thermal optima are positively correlated with environmental temperatures. An increase in temperature would then be expected to increase performance, regardless of the seasonal timing of the heatwave.](../Output/Figures/afdesigner/Concept_schem.png){width="400"}
+![Schematic illustrating the effects of heatwaves on performance. A) Heatwaves may occur at various times throughout the year, resulting in acute increases in temperature against a seasonally-variable baseline temperature (shown here for an hypothetical location in the Northern Hemisphere). B) Static thermal performance curves result in seasonally-variable effects of heatwaves on performance. Heatwaves that occur when temperatures are low relative to the optimum would be expected to increase performance (a beneficial effect). Heatwaves that occur when temperatures are near or past the thermal optimum may decrease performance (a detrimental effect). C) Variable thermal performance curves reduce seasonal variation in the effects of heatwaves on performance, when thermal optima are positively correlated with environmental temperatures. An increase in temperature would then be expected to increase performance, regardless of the seasonal timing of the heatwave.](../Output/Figures/afdesigner/Concept_schem.png){width="350"}
 
 Given their short generations times, abundance, and ecological importance in marine systems [@dam2013], copepods are an ideal model system to examine the interplay between seasonal variation in thermal performance curves and the direct and indirect effects of heatwaves. 
-Here we characterize how seasonal variation in thermal performance curves for key fitness related traits (egg production, hatching success, and survivorship) of the ecologically important copepod species *Acartia hudsonica* and *A. tonsa* shapes vulnerability to heatwaves. 
+Here we characterize how thermal performance curves for key fitness related traits (egg and offspring production, hatching success, and survivorship) of the ecologically important copepod species *Acartia hudsonica* and *A. tonsa* change over the season of occurrence, and how this variation shapes vulnerability to heatwaves. 
 We also quantified both direct and trans-generational effects of heatwaves on one of the species (*A. tonsa*) in the laboratory using a series of simulated heatwave experiments. 
 We test two hypotheses: 1) there is seasonal variation in the thermal performance curves of *A. hudsonica* and *A. tonsa*; and 2) that seasonal variation in TPCs will prevent negative transgenerational effects of heatwaves.
 
@@ -72,24 +85,15 @@ We test two hypotheses: 1) there is seasonal variation in the thermal performanc
 
 Copepods were collected from eastern Long Island Sound, USA (41.31, -72.07) several times throughout the year using surface tows of a 200 um mesh plankton net (Table 1). 
 Mature *Acartia hudsonica* or *Acartia tonsa* females were isolated from the contents of the plankton tow and placed individually in petri dishes for egg production and hatching success assays. 
-During these assays, females were fed maximum rations of mixture of *Tetraselmis spp.* and *Thallasiosira weissfloggi*. 
+During these assays, females were fed maximum rations of mixture of *Tetraselmis spp.* and *Thalasiosira weissfloggi*. 
+This diet has been used to maintain large cultures of these copepods for many generations in our lab [@dam2021; @sasaki2021].
 Females produced eggs for three days, after which the female was removed. 
 Eggs were given three additional days to hatch. 
 Egg production (the total number of eggs produced per female per day), the hatching success (percentage of eggs produced that hatched), and the total offspring production (the number of nauplii produced per female per day) were measured for each individual. 
-These assays were performed across a range of temperatures using stand up incubators (FISHER MODEL #) (10-30°C for *A. tonsa* and 4-24°C for *A. hudsonica*). 
+These assays were performed across a range of temperatures (10-30°C for *A. tonsa* and 4-24°C for *A. hudsonica*) using stand up incubators (Fisher Scientific Model #3720)
 Thermal performance curves (TPCs) for egg production, hatching success, and production were modeled using a Gaussian equation [@padfield2021]. 
 TPC parameters (maximum trait values and thermal optima) were extracted from these model fits. 
 All analyses were performed in R version 4.1.3.
-
-Thermal survivorship curves were also determined for each of these collections by exposing individual females to an acute 24 hour heat shock across a range of temperatures. 
-Individual females were placed in a 2.5 ml microfuge tube with 0.2 um filtered seawater, and moved to 15-well drybaths (USA Scientific). 
-Each drybath was set to a single temperature, ranging from 17-28°C for *A. hudsonica* and 16-36°C for *A. tonsa*. 
-Survivorship was checked after 24 hours. 
-Survivorship was modeled using a logistic regression of individual survivorship against stress temperature. 
-These survivorship curves were then used to estimate thermal tolerance (as LD50, the temperature of 50% mortality).
-
-To determine whether TPC parameter variation tracked seasonal temperature changes, we regressed the TPC parameters against the temperature at the time of collection. 
-A significant, positive relationship between collection temperature and TPC parameters (esp. thermal optimum and thermal tolerance) would indicate that TPCs varied in relation to the seasonal temperature cycle. 
 
 ```{r table1, echo = F}
 field_collections = data.frame("Month" = c("January", "February", "March", "April", "May", "June", 
@@ -104,13 +108,23 @@ knitr::kable(field_collections,
              caption = "Details for the field thermal performance curve collections. The date and water temperature (°C) at the time of collection are provided for each group, along with which species was collected. The exact date for the June 2015 collection of *Acartia hudsonica* was not available.")
 ```
 
+Thermal survivorship curves were also determined for each of these collections by exposing individual females to an acute 24 hour heat shock across a range of temperatures. 
+Individual females were placed in a 2.5 ml microfuge tube with 0.2 um filtered seawater, and moved to 15-well drybaths (USA Scientific). 
+Each drybath was set to a single temperature, ranging from 17-28°C for *A. hudsonica* and 16-36°C for *A. tonsa*. 
+Survivorship was checked after 24 hours. 
+Survivorship was modeled using a logistic regression of individual survivorship against stress temperature. 
+These survivorship curves were then used to estimate thermal tolerance (as LD50, the temperature of 50% mortality).
+
+To determine whether TPC parameter variation tracked seasonal temperature changes, we regressed the TPC parameters against the temperature at the time of collection. 
+A significant, positive relationship between collection temperature and TPC parameters (esp. thermal optimum and thermal tolerance) would indicate that TPCs varied in relation to the seasonal temperature cycle. 
+
 ## Simulated Heat Waves
 
 To examine transgenerational effects of heatwaves, we collected *Acartia tonsa* from the same site again in 2015 for use in laboratory simulated heatwave experiments. 
 In order to test the effects of a heatwave against the seasonally shifting baseline of ambient temperature, three collections were made before, during, and after peak environmental temperatures, corresponding to late June, late July, and early December (Table 2). 
 These experiments examined both direct and transgenerational effects of heatwaves. 
 To examine the direct effects, egg production rate, egg hatching success, and offspring production were measured for around 60 females per collection, split into two groups (control and heatwave). 
-These assays were performed as described in the Field TPC section, with females isolated in individual petri dishes and provided with food ad libitum. 
+These assays were performed as described in the Field TPC section, with females isolated in individual petri dishes and provided with food *ad libitum*. 
 The control group remained at a temperature near the current ambient temperature in Long Island Sound while the Heatwave group experienced temperatures 5°C above the ambient temperature (Table 2). 
 During the simulated heatwave, traits were measured over two periods to examine the effects of short and long heatwave events - Days 1-3 and Days 5-7. 
 Females were moved into petri dishes with fresh food solution on Days 3 and 5. Eggs produced during the intervening period were not examined.
@@ -140,14 +154,14 @@ knitr::kable(exp_design,
 
 In addition to the direct effects of heatwaves, we also examined the effects of parental exposure to increased temperature on offspring performance (i.e. - transgenerational effects). 
 From the same collections described above, several hundred adult copepods were placed into each of eight 4L buckets of filtered seawater, which were split between the control and heatwave temperatures for that collection. 
-Cultures were provided with food ad libitum and kept oxygenated using a small aquarium pump. 
+Cultures were provided with food *ad libitum* and kept oxygenated using a small aquarium pump. 
 Eggs were collected from each bucket following the same schedule as the direct effect experiments (on day 3 and day 7 for the short and long heatwave exposures, respectively). 
 Eggs were discarded on day 5 to ensure all individuals reflected the correct exposure periods. 
 For each collection, we therefore had four groups of offspring, those with parents exposed to control and heatwave temperatures for either 3 or 7 days.
 
 These four groups of eggs were then further split into three groups which developed at either 12, 17, or 22°C. 
 These rearing temperatures were used for all three collections, and reflect the temperatures observed at the times of collection. 
-During development, individuals were maintained in 4L buckets of filtered seawater and fed ad libitum. 
+During development, individuals were maintained in 4L buckets of filtered seawater and fed *ad libitum*. 
 After these individuals matured, body size and the three reproductive traits (egg production, hatching success, and production) were measured at the respective rearing temperature. 
 
 As for the F0 generation, we used effect size estimates (Hedge’s g) to examine how parental conditions affected offspring traits. 
@@ -173,8 +187,8 @@ knitr::kable(par_table,
       caption = "Subset of the thermal performance curve parameters for each collection (See supplemental file for full table, including 95% confidence intervals).")
 ```
 
-```{r, figure2, echo = F, out.width = "400px"}
-#| fig.cap = "Thermal performance curves for each of the collections, each shown in a different color. Curves in the blue range (January through June) are for Acartia hudsonica, while curves in the red range (July through November) are for A. tonsa. Panels A-C show points for each individual measurement along with the estimated Gaussian regression line. Panel D shows individual survivorship measurements following a 24-hour acute heat stress. Survivorship curves are estimated as logistic regressions. Note that the x-axis range differs in panel D."
+```{r, figure2, echo = F, out.width = "350px"}
+#| fig.cap = "Thermal performance curves for each of the collections, each shown in a different color. Collections January through June examined Acartia hudsonica, while collections July through November examined A. tonsa. Panels A-C show points for each individual measurement along with the estimated Gaussian regression line. Panel D shows individual survivorship measurements following a 24-hour acute heat stress. Survivorship curves are estimated as logistic regressions."
 knitr::include_graphics("../Output/Figures/markdown/figure-2-combined-tpcs-1.png")
 ```
 
@@ -200,7 +214,7 @@ knitr::include_graphics("../Output/Figures/markdown/figure-3-curve-parameters-1.
 
 ## Effects of Simulated Heatwaves
 
-The second component of this project examined the effects of heatwaves across generations in seasonal collections of *Acartia tonsa*. 
+The second component of this project examined the effects of simulated heatwaves across generations in seasonal collections of *Acartia tonsa*. 
 This began by assessing the impact of a simulated warming event on field collected (F0) individuals. 
 We examined the effects of warming for 1-3 days (short duration) and 5-7 days (long duration) on EPR, HS, and offspring production (Figure 4; Supp. Fig. 2a). 
 The impact of these warming events was assessed using an effect size estimate (Hedge's g), comparing the warming to the control treatment. We focus here on the changes observed in body size and offspring production, which integrates the observed changes in egg production and hatching success. 
@@ -222,7 +236,7 @@ For the transgenerational experiments, comparing between control and heatwave tr
 Results were again highly variable across developmental temperatures, parental exposure duration, and monthly collections. 
 For the June and August collections, effect sizes were often similar across all three reproductive traits (Supp. Fig. 2b; see June copepods at 17°C and 22°C, and August copepods at 12 °C). 
 When effect sizes differed between traits, EPR tended to be most strongly affected by parental exposure to warming (see June copepods at 18°C and August copepods at 17°C and 22°C). 
-Differences in the effects of parental exposure to heatwaves on EPR and HS often ameliorated the effects on production, which was generally less strongly affected by parental exposure to warming. 
+Differences in the effects of parental exposure to heatwaves on EPR and HS often ameliorated the overall effect size on offspring production, which was generally smaller than those for the other traits. 
 There were, however, significant decreases in production driven by parental exposure to longer duration warming in offspring developed at 17°C for both June and August collections. 
 A small increase in production resulted from parental exposure to short duration warming in the June copepods reared at 17°C. 
 This was the only observation of a positive effect of parental exposure to warming on production for the June and August copepods. 
@@ -277,8 +291,7 @@ Additional work is needed on how the relative capacity for variation in thermal 
 
 The transgenerational effects of heatwaves we observed varied in two main respects - the effect of the duration of parental exposure to increased temperatures across offspring developmental temperature treatments, and the pattern of this variation across collections. 
 These results indicate that the effects of parental exposure to heatwaves are highly context specific, reinforcing that caution is warranted when extrapolating the results of both acute warming and short heatwave events from laboratory experiments to the response of natural populations. 
-However, the general lack of strong detrimental effects suggests that parental exposure to heatwaves has weak transgenerational effects, regardless of season. 
-This may reflect the potential for seasonal variation in thermal performance curves to reduce parental stress during exposure to elevated temperatures. 
+However, the general lack of strong detrimental effects does suggest that seasonal variation in TPCs may reduce transgenerational effects of heatwaves by preventing parental stress during these events. 
 
 Against the background variation in the effects of parental exposure to heatwaves across collections, however, there were at least superficial similarities between the effects in the June and August collections, and strong differences between these and the November copepods. 
 Past work has shown that seasonal variation in thermal performance has a genetic basis in *A. tonsa* [@sasaki2020]. 
@@ -294,9 +307,13 @@ Alterations of thermal performance curves by reduced food availability may have 
 We also suggest that future work examine how maternal effects may alter offspring responses to recurring heatwaves [@loveridge2023; @minuti2022]. 
 In addition to the organismal basis for observed changes in thermal performance curves (plasticity vs. seasonal genetic differentiation for example), it will be important to identify the environmental drivers for patterns in variation over these relatively short timescales in order to better contextualize the nature of physiological stress [@dowd2020]. 
 
-\newpage
+# Acknowledgements
+
+This study was funded by grants from Connecticut Sea Grant (R/LR-25) and the National Science Foundation (OCE-1947965) awarded to H.G.D., and a NSF postdoctoral fellowship (OCE-2205848) awarded to M.C.S. 
 
 ```{=tex}
+\newpage
+
 \beginsupplement 
 ```
 # Supplementary Material
@@ -326,9 +343,11 @@ knitr::kable(car::Anova(wt.model, type = "III"),
       caption = "ANOVA results for a linear regression examining the relationship between warming tolerance and collection temperature for the two Acartiid species examined. The model included collection temperature and species as factors, along with their interaction.")
 ```
 
+\newpage
+
 ## Supplementary Figures
 
-```{r supp-fig-1, echo = F, fig.width=10, fig.height=5, fig.align='center'}
+```{r supp-fig-1, echo = F, fig.width=10, fig.height=5}
 #| fig.cap = "Comparison of the A) safety margin vs. collection temperature slopes and B) warming tolerance vs. collection temperature slopes for the two Acartia species, +/- 95 percent confidence intervals. Slopes represent the change in metric per °C change in collection temperature."
 
 theme_matt = function(base_size = 18,
@@ -365,7 +384,7 @@ ggplot(aes(x = species, y = temperature.trend)) +
                 width = 0.2) + 
   labs(x = "Species", 
        y = "Safety Margin Slope\n(°C / °C)") + 
-  theme_matt()
+  theme_matt(14)
 
 wt_coefs = as.data.frame(emmeans::emtrends(wt.model, "species", var = "temperature")) %>% 
 ggplot(aes(x = species, y = temperature.trend)) + 
@@ -376,7 +395,7 @@ ggplot(aes(x = species, y = temperature.trend)) +
                 width = 0.2) + 
   labs(x = "Species", 
        y = "Warming Tolerance Slope\n(°C / °C)") + 
-  theme_matt()
+  theme_matt(14)
 
 ggarrange(tsm_coefs, wt_coefs, labels = "AUTO", widths = c(0.5, 0.5))
 
@@ -384,7 +403,7 @@ ggarrange(tsm_coefs, wt_coefs, labels = "AUTO", widths = c(0.5, 0.5))
 
 \newpage
 
-```{r, supp-fig-2, echo = F, out.width = "350px", fig.align='center'}
+```{r, supp-fig-2, echo = F, out.width = "350px"}
 #| fig.cap = "The effects of simulated heatwaves on all four measured traits: body size, production, hatching success, and egg production rate. A) The direct effects of elevated temperature (field-caught F0 individuals), estimated as the effect size (Hedge's g) calculated for the trait comparisons between copepods exposed to heatwave and control treatments. A negative effect size indicates exposure to elevated temperature led to trait decreases. B) The indirect, transgenerational effects of parental exposure to elevated temperature were also estimated as an effect size using Hedge's g. Each panel shows data for one month and one developmental temperature. Here, a negative effect size indicates that parental exposure to elevated temperature decreased production or body size relative to individuals whos parents did not experience elevated temperatures. In all cases, each of the four traits are shown in different colors." 
 
 knitr::include_graphics("../Output/Figures/markdown/effect-size-grid-1.png")
@@ -392,7 +411,7 @@ knitr::include_graphics("../Output/Figures/markdown/effect-size-grid-1.png")
 
 \newpage
 
-```{r, supp-fig-3, echo = F, out.width = "300px", fig.align='center'}
+```{r, supp-fig-3, echo = F, out.width = "300px"}
 #| fig.cap = "Effect size comparisons between short and long duration events for each collection, along with 95 percent confidence intervals. The different treatments, control and heatwave, are shown with different colors. A negative effect size indicates that the observed production value within a treatment decreased over time." 
 
 knitr::include_graphics("../Output/Figures/markdown/F0-duration-effects-1.png")
@@ -400,7 +419,7 @@ knitr::include_graphics("../Output/Figures/markdown/F0-duration-effects-1.png")
 
 \newpage
 
-```{r, supp-fig-4, echo = F, out.width = "300px", fig.align='center'}
+```{r, supp-fig-4, echo = F, out.width = "300px"}
 #| fig.cap = "The relationship between the effects of parental exposure to warming on offspring body size and production. No significant relationship is observed."
 
 knitr::include_graphics("../Output/Figures/markdown/production-size-change-1.png")
@@ -410,7 +429,7 @@ knitr::include_graphics("../Output/Figures/markdown/production-size-change-1.png
 
 \newpage
 
-```{r, supp-fig-5, echo = F, out.width = "400px", fig.align='center'}
+```{r, supp-fig-5, echo = F, out.width = "400px"}
 #| fig.cap = "A) The relationship between offspring developmental temperature and adult body size. Each panel includes individual measurements for one treatment within a collection. Data for offspring of parents exposed to different duration events are shown in different colors. B) The slopes of body size vs. temperature shown in the panel A. A negative slope indicates that body size decreases with increasing temperature. The different durations are again shown with different colors."
 
 

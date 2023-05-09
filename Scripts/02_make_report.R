@@ -83,19 +83,26 @@ if(knit_manuscript == T){
            conf_upper = round(conf_upper, digits = 1),
            tab_entry = paste(estimate, " [", conf_lower, " - ", conf_upper, "]", sep = "")) %>%  
     pivot_wider(id_cols = c(curve_id, species),names_from = c(metric, term), values_from = estimate) %>% 
-    mutate(species = if_else(species == "tonsa", "*A. tonsa*", "*A. hudsonica*")) %>% 
-    select(-EPR_rmax, -HF_rmax)
+    mutate(species = if_else(species == "tonsa", "*A. tonsa*", "*A. hudsonica*"),
+           curve_id = fct_relevel(curve_id, "January", "February", "March", "April", "May", "June", 
+                                  "July", "August", "September", "October", "November_1", "November_2")) %>% 
+    select(-EPR_rmax, -HF_rmax) %>% 
+    arrange(curve_id)
   
   colnames(par_table) = c("Collection", "Species", "EPR Topt", 
                           "HS Topt",
                           "Prod. Rmax", "Prod. Topt")
-  
-  #write.csv(par_table, file = "Output/Data/par_table.csv")
+
+  # colnames(par_table) = c("Collection", "Species", "Max EPR Rate", "EPR Topt", 
+  #                         "Max HS", "HS Topt",
+  #                         "Max Offspring Production", "Production Topt")
+  # 
+  # write.csv(par_table, file = "Output/Data/par_table.csv")
   
   combined_tolerance = read.csv("Output/Data/combined_tolerance.csv")
   
   render(input = "Manuscript/Sasaki_et_al_2023.Rmd", #Input the path to your .Rmd file here
-         output_file = paste("dev_draft_", Sys.Date(), sep = ""), #Name your file here; as it is, this line will create drafts specified with the date
+         output_file = "Sasaki_etal_2023_heatwaves", #Name your file here; as it is, this line will create drafts specified with the date
          output_format = "all",
          output_dir = "Output/Drafts/", #Set the path to the desired output directory here
          clean = TRUE) 
