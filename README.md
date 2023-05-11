@@ -37,8 +37,7 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *Total* - The total number of eggs produced (hatched and unhatched combined)
     -   *Success* - The hatching success (number of hatched eggs divided by the total number of eggs)
     
-    \
-    
+
 -   `F0_Female_size.xlsx` contains body size data for the field-collected females used in the simulated heatwave experiments.   
     -   *Month* - The month copepods were collected	  
     -   *Treatment*	- Which treatment copepods were exposed to (heatwave or control)  
@@ -46,8 +45,7 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *Number* - ID within each treatment (from 1 to 40)  
     -   *Size*	- The prosome length (in mm)
         
-    \
-    
+
 -   `F1_EPR.xlsx` contains data from egg production experiments during the simulated heatwave experiments for the F1 generation.   
     -   *Month* - The month copepods were collected	  
     -   *Parental_treatment*	- Which treatment the offspring's parents were exposed to (heatwave or control)  
@@ -60,8 +58,7 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *Total* - The total number of eggs produced (hatched and unhatched combined)
     -   *Success* - The hatching success (number of hatched eggs divided by the total number of eggs)
         
-    \
-    
+
 -   `F0_sizes.xlsx` contains data from egg production experiments during the simulated heatwave experiments for the F1 generation.   
     -   *Month* - The month copepods were collected	  
     -   *Parental_treatment*	- Which treatment the offspring's parents were exposed to (heatwave or control)  
@@ -71,8 +68,7 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *Number* - ID within each treatment (from 1 to 40)  
     -   *Size*	- The prosome length (in mm)  
         
-    \
-    
+
 -   `Hyp1_hudsonica_epr.xlsx` contains data from egg production experiments for field-collected *Acartia hudsonica*.   
     -   *Month* - The month copepods were collected	  
     -   *Coll_temp*	- The temperature measured at the time of collection  
@@ -81,16 +77,14 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *HF* - The hatching success (number of hatched eggs divided by the total number of eggs)
     -   *RF* - The relative fecundity (referred to as offspring production in the manuscript) calculated as the EPR x the HF.
         
-    \
-    
+
 -   `Hyp1_hudsonica_surv.xlsx` contains temperature survivorship data for field-collected *Acartia hudsonica*.   
     -   *Month* - The month copepods were collected	  
     -   *Coll_temp*	- The temperature measured at the time of collection  
     -   *Temp* - The static stress temperature each individual was exposed to
     -   *Surv* - Whether the individual survived a 24-hour exposure to the temperature (0 or 1, died or survived, respectively)
         
-    \
-    
+
 -   `Hyp1_tonsa_epr.xlsx` contains data from egg production experiments for field-collected *Acartia tonsa*.   
     -   *Month* - The month copepods were collected	  
     -   *Coll_temp*	- The temperature measured at the time of collection  
@@ -99,8 +93,7 @@ The `Data/` directory contains the eight data sets used in this study.
     -   *HF* - The hatching success (number of hatched eggs divided by the total number of eggs)
     -   *RF* - The relative fecundity (referred to as offspring production in the manuscript) calculated as the EPR x the HF.
         
-    \
-    
+
 -   `Hyp1_tonsa_surv.xlsx` contains temperature survivorship data for field-collected *Acartia tonsa*.   
     -   *Month* - The month copepods were collected	  
     -   *Coll_temp*	- The temperature measured at the time of collection  
