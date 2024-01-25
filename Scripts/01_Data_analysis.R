@@ -263,7 +263,74 @@ write.csv(comb_d, file = "Output/Data/comb_d.csv", row.names = F)
 write.csv(comb_surv, file = "Output/Data/comb_surv.csv", row.names = F)
 write.csv(comb_boot_conf_preds, file = "Output/Data/comb_boot_conf_preds.csv", row.names = F)
 
+
+
+
+
+
 #### F0 - Simulated Heatwave ####
+# Factors: Month, Treatment, Duration
+# Replicates: Female ID
+# Variables: Hatched (poisson), Success (quasibinomial?), Size
+
+f0_model_females = F0_epr %>% 
+  group_by(Month, Treatment, Female) %>% 
+  count() %>% 
+  filter(n == 2) %>% 
+  mutate('female_ID' = paste(Month, Treatment, Female, sep = "_"))
+
+f0_model_data = F0_epr %>% 
+  mutate('female_ID' = paste(Month, Treatment, Female, sep = "_")) %>% 
+  filter(female_ID %in% f0_model_females$female_ID)
+
+ggplot(f0_model_data, 
+       aes(x = Day, y = Hatched, colour = Month, group = female_ID)) + 
+  facet_grid(Month~Treatment, scales = "free_y") + 
+  geom_line() + 
+  theme_bw()
+
+F0_hatched.model = lme4::glmer(data = f0_model_data, family = poisson, 
+                               Hatched ~ Treatment * Day + 
+                                 (1|Month) + (1|female_ID))
+
+summary(F0_hatched.model)
+car::Anova(F0_hatched.model, type = "III")
+
+
+#### F1 - Transgenerational effects ####
+# Factors: Month, Parental Treatment, Duration, Offspring Temperature
+# Replicates: Month
+# Variables: Hatched (poisson), Success (quasibinomial?), Size
+
+f1_model_data = F1_epr %>% 
+  mutate(Offspring_temp = as.factor(Offspring_temp))
+
+ggplot(f1_model_data, 
+       aes(x = Offspring_temp, y = Hatched, colour = Parental_treatment)) + 
+  facet_grid(Month~Day) + 
+  #geom_violin(position = position_dodge(width = 1)) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  theme_bw()
+
+F1_hatched.model = lme4::glmer(data = f1_model_data, family = poisson, 
+                               Hatched ~ Parental_treatment * Day * Offspring_temp + 
+                                 (1 + Parental_treatment|Month))
+
+summary(F1_hatched.model)
+coefficients(F1_hatched.model)
+car::Anova(F1_hatched.model, type = "III")
+
+
+
+
+
+
+
+
 F0_epr = F0_epr %>% 
   mutate("Duration" = case_when(
     Day == "1_to_3" ~ "Short", 
@@ -334,9 +401,9 @@ saveRDS(RF_long, file = "Output/Data/F0_RF_long.RData")
 female_size_comp = F0_fbs %>% 
   mutate(treat_ID = paste(Month, Treatment, sep = "_")) %>% 
   dabest(treat_ID, Size, 
-                     idx = list(c("June_Control", "June_Heatwave"),
-                                c("August_Control", "August_Heatwave"),
-                                c("November_Control", "November_Heatwave"))) %>% 
+         idx = list(c("June_Control", "June_Heatwave"),
+                    c("August_Control", "August_Heatwave"),
+                    c("November_Control", "November_Heatwave"))) %>% 
   hedges_g()
 
 saveRDS(female_size_comp, file = "Output/Data/female_size_comp.RData")
