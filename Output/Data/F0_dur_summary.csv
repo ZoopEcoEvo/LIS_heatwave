@@ -1,7 +1,0 @@
-"control_group","test_group","control_size","test_size","effect_size","paired","variable","difference","ci","bca_ci_low","bca_ci_high","pct_ci_low","pct_ci_high","nboots","month","treatment"
-"Short_Control","Long_Control",39,39,"hedges_g",TRUE,"Hatched",-0.325849153274608,95,-0.793946602540662,0.129926144308116,-0.806328506490809,0.112395313226555,5000,"June","Control"
-"Short_Heatwave","Long_Heatwave",37,37,"hedges_g",TRUE,"Hatched",-0.834329210292409,95,-1.36657118934131,-0.320276975126927,-1.41463385652852,-0.36368688423583,5000,"June","Heatwave"
-"Short_Control","Long_Control",34,34,"hedges_g",TRUE,"Hatched",-1.58493440282657,95,-2.11080862941006,-1.06017081277442,-2.18262548592329,-1.11912285464484,5000,"August","Control"
-"Short_Heatwave","Long_Heatwave",34,34,"hedges_g",TRUE,"Hatched",-1.29336312641229,95,-1.86841902361501,-0.710947799200911,-1.9976375491037,-0.785279279754526,5000,"August","Heatwave"
-"Short_Control","Long_Control",31,31,"hedges_g",TRUE,"Hatched",1.08839235600089,95,0.68164917970871,1.43325878609713,0.788185340268455,1.55525339131562,5000,"November","Control"
-"Short_Heatwave","Long_Heatwave",34,34,"hedges_g",TRUE,"Hatched",1.00833223139509,95,0.534205215006133,1.39335890770255,0.650797929104368,1.48533761598065,5000,"November","Heatwave"
