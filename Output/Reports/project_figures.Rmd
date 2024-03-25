@@ -86,6 +86,18 @@ comb_surv$Month = factor(comb_surv$Month,
 
 ```
 
+```{r}
+# Organization notes
+# Main text includes effect size figures 
+
+# Supp material includes: 
+# Raw data plots for all four traits 
+# Effect size plot showing all traits (done)
+# Contrasts from modeling approach 
+```
+
+
+
 ## Main Text Figures
 ```{r figure-2-combined-tpcs, fig.height=6}
 comb_epr_plot = comb_preds %>% 
@@ -202,15 +214,6 @@ ggarrange(combined_opt_coll, combined_opt_diff, combined_ld_coll, combined_ld_di
           legend = "bottom", labels = "AUTO")
 ```
 
-```{r}
-F0_hatched.model = lme4::glmer(data = f0_model_data, family = poisson, 
-                               Hatched ~ Treatment * Day + 
-                                 (1|Month) + (1|female_ID))
-
-summary(F0_hatched.model)
-car::Anova(F0_hatched.model, type = "III")
-```
-
 ```{r f0-hatched, fig.width=7, fig.height=6}
 f0_model_females = F0_epr %>% 
   group_by(Month, Treatment, Female) %>% 
@@ -220,33 +223,43 @@ f0_model_females = F0_epr %>%
 
 f0_model_data = F0_epr %>% 
   mutate('female_ID' = paste(Month, Treatment, Female, sep = "_")) %>% 
-  filter(female_ID %in% f0_model_females$female_ID)
-
-f0_summary = f0_model_data %>% 
-  group_by(Month, Treatment, Day) %>%  
-  summarise("mean_hatched" = mean(Hatched, na.rm = T),
-            "hatched_se" = st.err(Hatched, na.rm = T)) %>% 
-  ungroup() %>% 
+  filter(female_ID %in% f0_model_females$female_ID) %>% 
   mutate(Day = if_else(Day == "1_to_3", "Short", "Long"),
          Month = fct_relevel(Month, "June", "August", "November"),
          Day = fct_relevel(Day, "Short", "Long"))
+```
 
-ggplot(f0_summary, 
-       aes(x = Month, y = mean_hatched, colour = Treatment)) + 
-  facet_grid(.~Day, scales = "free_y") + 
-  geom_hline(yintercept = 0) + 
-  geom_errorbar(aes(ymin = mean_hatched - hatched_se, 
-                    ymax = mean_hatched + hatched_se),
-                width = 0.2, linewidth = 1,
-                position = position_dodge(width = 0.3)) + 
-  geom_point(size = 4, position = position_dodge(width = 0.3)) + 
-  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
-  labs(x = "Month", 
-       y = "Mean Offspring Production \n(offspring/female/day)") + 
-  theme_matt() + 
-  theme(panel.border = element_rect(fill = NA, colour = "black"),
-        legend.position = "bottom",
-        axis.text.x = element_text(angle = 300, hjust = 0, vjust = 0.5))
+```{r}
+F0_hatched.model = lme4::glmer(data = f0_model_data, family = poisson, 
+                               Hatched ~ Treatment * Day * Month + (1|female_ID))
+
+summary(F0_hatched.model)
+
+knitr::kable(car::Anova(F0_hatched.model, type = "III"))
+```
+
+```{r}
+knitr::kable(emmeans::emmeans(F0_hatched.model, ~ Day | Treatment * Month, type = "response") %>% pairs())
+
+knitr::kable(emmeans::emmeans(F0_hatched.model, ~ Treatment | Day * Month, type = "response") %>% pairs())
+
+f0_effects = emmeans::emmeans(F0_hatched.model, ~ Treatment | Day * Month, type = "response") %>% pairs() %>% data.frame() %>% 
+  mutate(Day = fct_relevel(Day, "Short", "Long"),
+         Month = fct_relevel(Month, "June", "August", "November")) %>% 
+  ggplot(aes(x = Day, y = ratio, shape = Day)) + 
+  facet_wrap(.~Month, nrow = 1) + 
+  geom_hline(yintercept = 1) + 
+  geom_point(position = position_dodge(width = 0.3), 
+             size = 7) + 
+  geom_errorbar(aes(ymin = ratio - SE, ymax = ratio + SE),
+                position = position_dodge(width = 0.3),
+                width = 0.2, linewidth = 1) + 
+  labs(x = "Duration", 
+       y = "Ratio (Control:Heatwave)",
+       shape = "Duration") + 
+  theme_bw(base_size = 20) + 
+  theme(legend.position = "none", 
+        panel.grid = element_blank())
 ```
 
 ```{r f1-hatched, fig.width=8, fig.height=6}
@@ -256,9 +269,30 @@ f1_model_data = F1_epr %>%
   mutate(Day = if_else(Day == "1_to_3", "Short", "Long"),
          Month = fct_relevel(Month, "June", "August", "November"),
          Day = fct_relevel(Day, "Short", "Long"))
+```
 
-ggplot(f1_model_data, 
-       aes(x = Offspring_temp, y = Hatched, colour = Parental_treatment)) + 
+
+```{r raw-data-plots, fig.width=20, fig.height=12}
+
+f0_epr_plot = ggplot(f0_model_data, 
+                 aes(x = Day, y = Total, colour = Treatment)) + 
+  facet_grid(.~Month, scales = "free_y") + 
+  geom_hline(yintercept = 0) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  labs(y = "Egg Production \n(per female per day)") + 
+  theme_matt() + 
+  theme(panel.border = element_rect(fill = NA, colour = "black"),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 300, hjust = 0, vjust = 0.5),
+        axis.title.x = element_blank(),
+        strip.text = element_text(size = 18))
+
+f1_epr_plot = ggplot(f1_model_data, 
+                 aes(x = factor(Offspring_temp), y = Total, colour = Parental_treatment)) + 
   facet_grid(Month~Day) + 
   #geom_violin(position = position_dodge(width = 1)) + 
   geom_boxplot(position = position_dodge(width = 0.5),
@@ -268,21 +302,130 @@ ggplot(f1_model_data,
   scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
   scale_y_continuous(breaks = c(0, 100, 200)) + 
   labs(x = "Offspring Temp. (°C)", 
-       y = "Offspring Production \n(offspring/female/day)",
+       y = "Egg Production \n(per female per day)",
        colour = "Parental Treatment") + 
   theme_matt() + 
   theme(panel.border = element_rect(fill = NA, colour = "black"),
-        legend.position = "bottom")
+        legend.position = "bottom",
+        strip.text = element_text(size = 18))
+
+raw_epr = ggarrange(f0_epr_plot, f1_epr_plot, nrow = 2, 
+          heights = c(0.3, 0.7), common.legend = T, legend = "bottom")
+
+###
+
+f0_hs_plot = ggplot(f0_model_data, 
+                 aes(x = Day, y = Success, colour = Treatment)) + 
+  facet_grid(.~Month, scales = "free_y") + 
+  geom_hline(yintercept = 0) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  labs(y = "Hatching Success") + 
+  theme_matt() + 
+  theme(panel.border = element_rect(fill = NA, colour = "black"),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 300, hjust = 0, vjust = 0.5),
+        axis.title.x = element_blank(),
+        strip.text = element_text(size = 18))
+
+f1_hs_plot = ggplot(f1_model_data, 
+                 aes(x = factor(Offspring_temp), y = Success, colour = Parental_treatment)) + 
+  facet_grid(Month~Day) + 
+  #geom_violin(position = position_dodge(width = 1)) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  scale_y_continuous(breaks = c(0, 1)) + 
+  labs(x = "Offspring Temp. (°C)", 
+       y = "Hatching Success",
+       colour = "Parental Treatment") + 
+  theme_matt() + 
+  theme(panel.border = element_rect(fill = NA, colour = "black"),
+        legend.position = "bottom",
+        strip.text = element_text(size = 18))
+
+raw_hs = ggarrange(f0_hs_plot, f1_hs_plot, nrow = 2, 
+          heights = c(0.3, 0.7), common.legend = T, legend = "bottom")
+
+###
+
+f0_prod_plot = ggplot(f0_model_data, 
+                 aes(x = Day, y = Hatched, colour = Treatment)) + 
+  facet_grid(.~Month, scales = "free_y") + 
+  geom_hline(yintercept = 0) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  labs(y = "Offspring Production \n(per female per day)") + 
+  theme_matt() + 
+  theme(panel.border = element_rect(fill = NA, colour = "black"),
+        legend.position = "bottom",
+        axis.text.x = element_text(angle = 300, hjust = 0, vjust = 0.5),
+        axis.title.x = element_blank(),
+        strip.text = element_text(size = 18))
+
+f1_prod_plot = ggplot(f1_model_data, 
+                 aes(x = factor(Offspring_temp), y = Hatched, colour = Parental_treatment)) + 
+  facet_grid(Month~Day) + 
+  #geom_violin(position = position_dodge(width = 1)) + 
+  geom_boxplot(position = position_dodge(width = 0.5),
+               width = 0.3) + 
+  geom_point(position = position_dodge(width = 0.5),
+             alpha = 0.5) + 
+  scale_colour_manual(values = c("Heatwave" = "coral3", "Control" = "skyblue3")) + 
+  scale_y_continuous(breaks = c(0, 100, 200)) + 
+  labs(x = "Offspring Temp. (°C)", 
+       y = "Offspring Production \n(per female per day)",
+       colour = "Parental Treatment") + 
+  theme_matt() + 
+  theme(panel.border = element_rect(fill = NA, colour = "black"),
+        legend.position = "bottom",
+        strip.text = element_text(size = 18))
+
+raw_production = ggarrange(f0_prod_plot, f1_prod_plot, nrow = 2, 
+          heights = c(0.3, 0.7), common.legend = T, legend = "bottom")
+
+ggarrange(raw_epr, raw_hs, raw_production, nrow = 1, common.legend = T, legend = "bottom",
+          labels = "AUTO")
 ```
 
 ```{r}
-F1_hatched.model = lme4::glmer(data = f1_model_data, family = poisson, 
-                               Hatched ~ Parental_treatment * Day * Offspring_temp + 
-                                 (1 + Parental_treatment|Month))
+# F1_hatched.model = lme4::glmer(data = f1_model_data, family = poisson, 
+#                                Hatched ~ Parental_treatment * Day * Offspring_temp + 
+#                                  (1 + Parental_treatment|Month))
+
+F1_hatched.model = glm(data = f1_model_data, family = "poisson",
+                       Hatched ~ Parental_treatment * Day * Offspring_temp * Month)
 
 summary(F1_hatched.model)
-coefficients(F1_hatched.model)
-car::Anova(F1_hatched.model, type = "III")
+#car::Anova(F1_hatched.model,test = "F", type = "III")
+```
+
+```{r model-contrasts-production, fig.width = 9, fig.height= 12}
+f1_hatched_contrasts = emmeans::emmeans(F1_hatched.model, ~ Parental_treatment | Day * Month * Offspring_temp, type = "response") %>% pairs() %>% data.frame() %>% 
+  #mutate(estimate = estimate * -1) %>% 
+  drop_na() %>% 
+  mutate("ID" = paste0(Month, Offspring_temp))
+
+f1_effects = ggplot(f1_hatched_contrasts, aes(x = Day, y = ratio, group = ID)) + 
+  facet_grid(Offspring_temp~Month) + 
+  geom_hline(yintercept = 1) +
+  geom_line(linewidth = 0.8) + 
+  geom_point(size = 2) + 
+  geom_errorbar(aes(ymin = ratio - SE, ymax = ratio + SE), width = 0.1, linewidth = 1) + 
+  labs(x = "Duration", 
+       y = "Ratio (Control:Heatwave)") + 
+  theme_bw(base_size = 20) + 
+  theme(panel.grid = element_blank())
+
+ggarrange(f0_effects, f1_effects, nrow = 2, heights = c(0.3, 0.7))
 ```
 
 ```{r}
@@ -292,12 +435,10 @@ f1_size_data = F1_fbs %>%
          Month = fct_relevel(Month, "June", "August", "November"),
          Day = fct_relevel(Day, "Short", "Long"))
 
-F1_size.model = lme4::lmer(data = f1_size_data, 
-                           Size ~ Parental_treatment * Offspring_temp * Day * Month + 
-                             (1|Month))
+F1_size.model = glm(data = f1_size_data,
+                    Size ~ Parental_treatment * Day * Offspring_temp * Month)
 
 summary(F1_size.model)
-coefficients(F1_size.model)
 car::Anova(F1_size.model, type = "III")
 ```
 
@@ -307,7 +448,7 @@ day_cols = c("Short" = "grey80", "Long" = "grey30")
 size_temp1 = ggplot(f1_size_data, aes(x = Offspring_temp, y = Size, colour = Parental_treatment)) + 
   facet_grid(Month~Day) + 
   geom_jitter(width = 0.5, size = 1.6, alpha = 0.4) +
-  geom_smooth(method = "lm", size = 1.4, alpha = 0.2) + 
+  geom_smooth(method = "lm", linewidth = 1.4, alpha = 0.2) + 
   labs(x = "Offspring Temperature (°C)",
        y = "Size (mm)",
        colour = "Parental Treatment") + 
@@ -327,7 +468,7 @@ size_temp2 = emmeans::emtrends(F1_size.model, c("Month", "Day", "Parental_treatm
   geom_line(linewidth = 1.5,
             position = position_dodge(width = 0.5)) + 
   geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL),
-                size = 1.5, width = 0.5,
+                linewidth = 1.5, width = 0.5,
                 position = position_dodge(width = 0.5)) + 
   geom_point(size = 3,
              position = position_dodge(width = 0.5)) + 
@@ -336,12 +477,31 @@ size_temp2 = emmeans::emtrends(F1_size.model, c("Month", "Day", "Parental_treatm
        y = "Size Slope (mm / °C)") + 
   theme_matt(base_size = 15) + 
   theme(legend.position = "bottom",
-        axis.text.x = element_text(angle = 360-45,
-                                   hjust = 0, vjust = 0.5))
+        axis.text.x = element_text(angle = 290,
+                                   hjust = 0, vjust = 0.5),
+        plot.background = element_rect(fill = "white"))
 
 ggarrange(size_temp1, size_temp2, labels = "AUTO", common.legend = F, legend = "bottom")
 ```
 
+```{r model-contrasts-size, fig.width = 9, fig.height= 9}
+f1_size_contrasts = emmeans::emmeans(F1_size.model, ~ Parental_treatment | Day * Month * Offspring_temp, type = "response", at = list(Offspring_temp = c(12,17,22))) %>% pairs() %>% data.frame() %>% 
+  drop_na() %>% 
+  mutate("ID" = paste0(Month, Offspring_temp)) %>% 
+  filter(!(ID == "November12" & Day == "Short")) %>% 
+  filter(!(ID == "November22" & Day == "Short"))
+
+ggplot(f1_size_contrasts, aes(x = Day, y = estimate, group = ID)) + 
+  facet_grid(Offspring_temp~Month) + 
+  geom_hline(yintercept = 0) +
+  geom_line(linewidth = 0.8) + 
+  geom_point(size = 2) + 
+  geom_errorbar(aes(ymin = estimate - SE, ymax = estimate + SE), width = 0.1, linewidth = 1) + 
+  labs(x = "Duration", 
+       y = "Effect (mm; Control - Heatwave)") + 
+  theme_bw(base_size = 20) + 
+  theme(panel.grid = element_blank())
+```
 
 ```{r}
 # F0_rf_summary$month = factor(F0_rf_summary$month, levels = c("June", "August", "November"))
@@ -481,16 +641,6 @@ comb_params %>%
   theme_bw(base_size = 18) +
   theme(panel.grid = element_blank())
 ```
-
-```{r}
-ggplot(f0_model_data, 
-       aes(x = Day, y = Hatched, colour = Month, group = female_ID)) + 
-  facet_grid(Month~Treatment, scales = "free_y") + 
-  geom_line() + 
-  theme_matt() + 
-  theme(panel.border = element_rect(fill = NA, colour = "black"))
-```
-
 
 ```{r effect-size-grid, fig.height=8, fig.width=8}
 # #Subsequent Rows
@@ -633,10 +783,10 @@ f0_model_data %>%
   pivot_wider(id_cols = c("Treatment", "Month"),
               values_from = mean_hatched, 
               names_from = Day) %>% 
-  mutate("effect" = `5_to_7` - `1_to_3`)
+  mutate("effect" = Long - Short)
 
 duration.model = lme4::lmer(data = f0_model_data, 
-                    Hatched ~ Treatment * Day * Month + (1|Month))
+                            Hatched ~ Treatment * Day * Month + (1|Month))
 
 duration_pairs = emmeans::emmeans(duration.model, 
                                   ~ Day | Month * Treatment) %>% 
@@ -652,7 +802,7 @@ as.data.frame(summary(duration_pairs))[c('Month',
   ggplot(aes(x = Month, fill = Treatment, y = estimate)) + 
   geom_bar(stat = "identity", position = position_dodge(width = 0.9), colour = "black", size = 1) + 
   geom_errorbar(aes(ymin = estimate - SE, ymax = estimate + SE),
-                width = 0.1, size = 1,
+                width = 0.1, linewidth = 1,
                 position = position_dodge(width = 0.9)) + 
   geom_hline(yintercept = 0) + 
   scale_fill_manual(values = c("grey30", "white")) + 
