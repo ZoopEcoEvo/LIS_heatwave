@@ -12,6 +12,7 @@ library(car)
 library(ggpubr)
 library(ggrepel)
 library(tidyverse)
+library(performance)
 
 process_data = F
 generate_figures = T
