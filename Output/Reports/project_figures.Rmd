@@ -302,7 +302,9 @@ f1_size_data = F1_fbs %>%
   ungroup() %>% 
   mutate(Day = if_else(Day == "1_to_3", "Short", "Long"),
          Month = fct_relevel(Month, "June", "August", "November"),
-         Day = fct_relevel(Day, "Short", "Long"))
+         Day = fct_relevel(Day, "Short", "Long"),
+         Parental_treatment = fct_relevel(Parental_treatment, "Heatwave", "Control"))
+
 
 F1_size.model = lm(data = f1_size_data,
                     Size ~ Parental_treatment * Day * Offspring_temp * Month)
@@ -686,13 +688,6 @@ ggarrange(size_temp1, size_temp2, labels = "AUTO", common.legend = F, legend = "
 ```
 
 ```{r supp-8-f1-size-contrasts, fig.width=7, fig.height=7}
-f1_size_data = F1_fbs %>% 
-  ungroup() %>% 
-  mutate(Day = if_else(Day == "1_to_3", "Short", "Long"),
-         Month = fct_relevel(Month, "June", "August", "November"),
-         Day = fct_relevel(Day, "Short", "Long"),
-         Parental_treatment = fct_relevel(Parental_treatment, "Heatwave", "Control"))
-
 f1_size_contrasts = emmeans::emmeans(F1_size.model, ~ Parental_treatment | Day * Month * Offspring_temp, type = "response", at = list(Offspring_temp = c(12,17,22))) %>% 
   pairs() %>% data.frame() %>% 
   drop_na() %>% 
@@ -711,10 +706,6 @@ ggplot(f1_size_contrasts, aes(x = Day, y = estimate, group = ID)) +
   theme_bw() + 
   theme(panel.grid = element_blank())
 ```
-
-
-
-#######
 
 
 
