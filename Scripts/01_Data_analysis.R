@@ -1,5 +1,5 @@
 #This is the data analysis for Sasaki et al. - "Seasonally variable thermal performance curves prevent adverse effects of heatwaves"
-#Code should be run via the project 'Heatwave.RProj'
+#Code should be run via the 02_make_report.R script and the project 'Heatwave.RProj'
 
 #### Estimating Field LD50 Values ####
 ### Acartia tonsa ###

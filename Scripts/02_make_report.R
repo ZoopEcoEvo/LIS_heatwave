@@ -10,7 +10,6 @@ library(minpack.lm)
 library(dabestr)
 library(car)
 library(ggpubr)
-library(ggrepel)
 library(tidyverse)
 library(performance)
 
