@@ -8,6 +8,9 @@ M.C. Sasaki<sup>1,2</sup>, M. Finiguerra<sup>3</sup>, H.G. Dam<sup>1</sup>
 
 This project examined how seasonal variation in thermal performance curves affects vulnerability to heatwaves in the estuarine copepods *Acartia tonsa* and *Acartia hudsonica*. Copepods were collected from Eastern Long Island Sound on roughly monthly intervals during 2014 and 2015. 
 
+Data archived at [![DOI](https://zenodo.org/badge/562227484.svg)](https://doi.org/10.5281/zenodo.13988768)    
+Preprint: https://doi.org/10.1101/2023.05.09.540050 
+
 ## Directory Structure 
 The root directory contains the README and Licensing files, along with a .Rproj file and four sub-directories: Data, Manuscript, Output, and Scripts.  
 
